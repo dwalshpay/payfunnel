@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+/* Europa font - custom font from Figma design */
+@font-face {
+  font-family: 'Europa';
+  src: local('Europa Bold'), local('Europa-Bold');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Europa';
+  src: local('Europa Regular'), local('Europa-Regular');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* Colors - extracted from Figma design */
+  --color-primary: #3866B0;
+  --color-primary-dark: #003C80;
+  --color-primary-light: #D3DFF6;
+  --color-primary-lighter: #E2E9F9;
+
+  --color-background: #FFFFFF;
+  --color-background-page: linear-gradient(180deg, #E8EEF5 0%, #F0F4F8 100%);
+
+  --color-card: #FFFFFF;
+  --color-card-border: #F5F5F5;
+
+  --color-text-primary: #283E48;
+  --color-text-dark: #001821;
+  --color-text-disabled: #BDBDBD;
+  --color-text-action: rgba(0, 0, 0, 0.54);
+
+  --color-border: rgba(0, 0, 0, 0.12);
+  --color-divider: #E0E0E0;
+
+  --color-button-disabled: #BDBDBD;
+
+  --color-trustpilot: #00B67A;
+
+  /* Typography */
+  --font-family-sans: 'Europa', system-ui, -apple-system, sans-serif;
+
+  /* Shadows from Figma */
+  --shadow-card: 0px 1px 3px 0px rgba(0, 0, 0, 0.03), 0px 1px 3px 1px rgba(0, 0, 0, 0.05);
+  --shadow-strong: 0px 3px 10px 1px rgba(0, 0, 0, 0.1), 0px 4px 12px 1px rgba(0, 0, 0, 0.1);
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 999px;
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-family-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #E8EEF5 0%, #F0F4F8 100%);
+}
+
+#root {
+  min-height: 100vh;
+}
