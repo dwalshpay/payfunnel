@@ -5,6 +5,7 @@ import { LiveRewardsDashboard } from '../dashboard/LiveRewardsDashboard';
 import { MobileDashboardHeader } from './MobileDashboardHeader';
 import { StepIndicator } from './StepIndicator';
 import { STEPS } from '../../data/variantCStepConfig';
+import { Logo } from '../../../../components/layout/Logo';
 
 interface VariantCLayoutProps {
   children: ReactNode;
@@ -27,35 +28,7 @@ export function VariantCLayout({ children }: VariantCLayoutProps) {
     <div className="min-h-screen bg-gradient-to-br from-[#EEF2F8] via-[#F5F8FC] to-[#E8EEF5] flex flex-col">
       {/* Header */}
       <header className="h-16 px-4 md:px-6 flex items-center justify-between border-b border-[rgba(0,0,0,0.06)] bg-white/90 backdrop-blur-sm sticky top-0 z-40">
-        {/* Logo */}
-        <svg
-          width="130"
-          height="26"
-          viewBox="0 0 164 32"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="flex-shrink-0"
-        >
-          <circle cx="14" cy="14" r="14" fill="#3866B0" />
-          <path
-            d="M10 7v14M10 7h5c2.2 0 4 1.8 4 4s-1.8 4-4 4h-5"
-            stroke="white"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <circle cx="21" cy="7" r="2.5" fill="#00B67A" />
-          <text
-            x="34"
-            y="19"
-            fill="#283E48"
-            fontSize="15"
-            fontWeight="700"
-            fontFamily="Europa, system-ui, sans-serif"
-          >
-            pay.com.au
-          </text>
-        </svg>
+        <Logo />
 
         {/* Step indicator - center */}
         <div className="hidden md:block">
