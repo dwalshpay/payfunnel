@@ -10,6 +10,7 @@ import { VariantCFunnel } from './variants/variant-c';
 import { VariantDFunnel } from './variants/variant-d';
 import { VariantEFunnelRoot } from './variants/variant-e';
 import { VariantF } from './variants/variant-f';
+import { VariantGFunnel } from './variants/variant-g';
 
 function BaselineFunnelContent() {
   const { state } = useFunnel();
@@ -45,6 +46,7 @@ function App() {
         <Route path="/funnel/variant-d" element={<VariantDFunnel />} />
         <Route path="/funnel/variant-e" element={<VariantEFunnelRoot />} />
         <Route path="/funnel/variant-f" element={<VariantF />} />
+        <Route path="/funnel/variant-g" element={<VariantGFunnel />} />
       </Routes>
     </BrowserRouter>
   );

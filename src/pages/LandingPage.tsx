@@ -117,6 +117,15 @@ export function LandingPage() {
       badge: 'New',
       badgeColor: 'bg-[#06B6D4]',
     },
+    {
+      title: 'Variant G - Advisor Engine',
+      description:
+        'Portfolio-first funnel for accountants and bookkeepers. Calculates aggregate rewards across entire client portfolio, shows advisor dashboard preview, and offers practice-specific registration with referral bonus potential.',
+      to: '/funnel/variant-g',
+      status: 'active',
+      badge: 'New',
+      badgeColor: 'bg-[#10B981]',
+    },
   ];
 
   return (
