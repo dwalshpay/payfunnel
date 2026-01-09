@@ -4,6 +4,9 @@ import { HeroPage } from './pages/HeroPage';
 import { UnlockRewardsPage } from './pages/UnlockRewardsPage';
 import { PersonalizeRewardsPage } from './pages/PersonalizeRewardsPage';
 import { ClaimPartnersPage } from './pages/ClaimPartnersPage';
+import { AccountCreationPage } from './pages/AccountCreationPage';
+import { MobileNumberPage } from './pages/MobileNumberPage';
+import { VerificationCodePage } from './pages/VerificationCodePage';
 import { SuccessPage } from './pages/SuccessPage';
 
 function VariantCContent() {
@@ -12,7 +15,7 @@ function VariantCContent() {
 
   // Render current step
   const renderStep = () => {
-    if (isComplete || currentStep === 4) {
+    if (isComplete || currentStep === 7) {
       return <SuccessPage />;
     }
 
@@ -25,6 +28,12 @@ function VariantCContent() {
         return <PersonalizeRewardsPage />;
       case 3:
         return <ClaimPartnersPage />;
+      case 4:
+        return <AccountCreationPage />;
+      case 5:
+        return <MobileNumberPage />;
+      case 6:
+        return <VerificationCodePage />;
       default:
         return <HeroPage />;
     }

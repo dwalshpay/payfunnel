@@ -6,6 +6,17 @@ import {
   type Dispatch,
 } from 'react';
 
+// Registration data types
+export interface RegistrationData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  referralCode: string;
+  mobileNumber: string;
+  verificationCode: string;
+}
+
 // Answer types
 export interface VariantCAnswers {
   // Step 1: Unlock Your Rewards
@@ -18,12 +29,14 @@ export interface VariantCAnswers {
   // Step 3: Claim Your Partners
   partners: string[];
   employees: string | null;
+  // Steps 4-6: Registration
+  registration: RegistrationData;
   // Other inputs
   otherInputs: Record<string, string>;
 }
 
 export interface VariantCState {
-  // Current step (0 = hero, 1-3 = form steps)
+  // Current step (0 = hero, 1-6 = form steps)
   currentStep: number;
   // User answers
   answers: VariantCAnswers;
@@ -41,6 +54,7 @@ type VariantCAction =
   | { type: 'TOGGLE_MULTI_ANSWER'; field: keyof VariantCAnswers; value: string }
   | { type: 'SET_EXPENSE'; value: number }
   | { type: 'SET_OTHER_INPUT'; field: string; value: string }
+  | { type: 'SET_REGISTRATION_FIELD'; field: keyof RegistrationData; value: string }
   | { type: 'NEXT_STEP' }
   | { type: 'PREV_STEP' }
   | { type: 'GO_TO_STEP'; step: number }
@@ -61,6 +75,15 @@ const initialState: VariantCState = {
     redemptionOptions: [],
     partners: [],
     employees: null,
+    registration: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      referralCode: '',
+      mobileNumber: '',
+      verificationCode: '',
+    },
     otherInputs: {},
   },
   heroExpensePreview: 50000, // Default hero preview
@@ -145,10 +168,22 @@ function reducer(state: VariantCState, action: VariantCAction): VariantCState {
         },
       };
 
+    case 'SET_REGISTRATION_FIELD':
+      return {
+        ...state,
+        answers: {
+          ...state.answers,
+          registration: {
+            ...state.answers.registration,
+            [action.field]: action.value,
+          },
+        },
+      };
+
     case 'NEXT_STEP':
       return {
         ...state,
-        currentStep: Math.min(state.currentStep + 1, 4), // 0-3 + success
+        currentStep: Math.min(state.currentStep + 1, 7), // 0-6 + success (7)
         isLoading: false,
       };
 
@@ -178,7 +213,7 @@ function reducer(state: VariantCState, action: VariantCAction): VariantCState {
       return {
         ...state,
         isComplete: true,
-        currentStep: 4,
+        currentStep: 7,
       };
 
     case 'SET_LOADING':
@@ -216,8 +251,12 @@ function reducer(state: VariantCState, action: VariantCAction): VariantCState {
 }
 
 // Validation helpers
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MOBILE_REGEX = /^(\+?61|0)4\d{8}$/;
+
 function canProceed(state: VariantCState): boolean {
   const { currentStep, answers } = state;
+  const { registration } = answers;
 
   switch (currentStep) {
     case 0: // Hero - can always proceed
@@ -231,6 +270,17 @@ function canProceed(state: VariantCState): boolean {
       );
     case 3: // Claim Your Partners
       return answers.partners.length > 0;
+    case 4: // Account Creation
+      return (
+        EMAIL_REGEX.test(registration.email) &&
+        registration.firstName.trim().length > 0 &&
+        registration.lastName.trim().length > 0 &&
+        registration.password.length >= 6
+      );
+    case 5: // Mobile Number
+      return MOBILE_REGEX.test(registration.mobileNumber.replace(/\s/g, ''));
+    case 6: // Verification Code
+      return registration.verificationCode.length === 6;
     default:
       return false;
   }
@@ -246,6 +296,7 @@ interface VariantCContextValue {
   setSingleAnswer: (field: keyof VariantCAnswers, value: string | number | null) => void;
   toggleMultiAnswer: (field: keyof VariantCAnswers, value: string) => void;
   setExpense: (value: number) => void;
+  setRegistrationField: (field: keyof RegistrationData, value: string) => void;
   nextStep: () => void;
   prevStep: () => void;
   startFunnel: () => void;
@@ -268,6 +319,8 @@ export function VariantCProvider({ children }: { children: ReactNode }) {
     toggleMultiAnswer: (field, value) =>
       dispatch({ type: 'TOGGLE_MULTI_ANSWER', field, value }),
     setExpense: (value) => dispatch({ type: 'SET_EXPENSE', value }),
+    setRegistrationField: (field, value) =>
+      dispatch({ type: 'SET_REGISTRATION_FIELD', field, value }),
     nextStep: () => dispatch({ type: 'NEXT_STEP' }),
     prevStep: () => dispatch({ type: 'PREV_STEP' }),
     startFunnel: () => dispatch({ type: 'START_FUNNEL' }),

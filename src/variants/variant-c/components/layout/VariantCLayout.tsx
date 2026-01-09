@@ -5,7 +5,7 @@ import { useRewardsCalculator } from '../../hooks/useRewardsCalculator';
 import { LiveRewardsDashboard } from '../dashboard/LiveRewardsDashboard';
 import { MobileDashboardHeader } from './MobileDashboardHeader';
 import { StepIndicator } from './StepIndicator';
-import { STEPS } from '../../data/variantCStepConfig';
+import { STEPS, TOTAL_STEPS } from '../../data/variantCStepConfig';
 import { Logo } from '../../../../components/layout/Logo';
 
 interface VariantCLayoutProps {
@@ -41,7 +41,7 @@ export function VariantCLayout({ children }: VariantCLayoutProps) {
 
         {/* Step indicator - center */}
         <div className="hidden md:block">
-          <StepIndicator currentStep={currentStep} totalSteps={3} />
+          <StepIndicator currentStep={currentStep} totalSteps={TOTAL_STEPS} />
         </div>
 
         {/* Help link */}
@@ -52,7 +52,7 @@ export function VariantCLayout({ children }: VariantCLayoutProps) {
 
       {/* Mobile step indicator */}
       <div className="md:hidden px-4 py-3 bg-white/50 border-b border-[rgba(0,0,0,0.04)]">
-        <StepIndicator currentStep={currentStep} totalSteps={3} />
+        <StepIndicator currentStep={currentStep} totalSteps={TOTAL_STEPS} />
       </div>
 
       {/* Mobile rewards header (sticky) */}

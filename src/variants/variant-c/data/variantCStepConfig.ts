@@ -202,8 +202,32 @@ export const STEPS: StepConfig[] = [
     title: 'Choose Your Partners',
     subtitle: 'Select where to transfer your rewards',
     fields: ['partners', 'employees'],
-    ctaText: 'Complete & See My Dashboard',
+    ctaText: 'Continue to Secure Your Rewards',
     backText: 'Back',
+  },
+  {
+    id: 'create-account',
+    title: 'Secure Your Rewards',
+    subtitle: 'Create your account to lock in your earnings',
+    fields: ['email', 'firstName', 'lastName', 'password', 'referralCode'],
+    ctaText: 'Continue',
+    backText: 'Back',
+  },
+  {
+    id: 'mobile-number',
+    title: 'Verify Your Mobile',
+    subtitle: 'Add your mobile number for account security',
+    fields: ['mobileNumber'],
+    ctaText: 'Send Verification Code',
+    backText: 'Back',
+  },
+  {
+    id: 'verify-code',
+    title: 'Enter Verification Code',
+    subtitle: 'Check your phone for the 6-digit code',
+    fields: ['verificationCode'],
+    ctaText: 'Complete & See My Dashboard',
+    backText: 'Change Number',
   },
 ];
 
@@ -274,4 +298,4 @@ export function getTestimonialsForIndustry(industry: string): Testimonial[] {
   return TESTIMONIALS.slice(0, 2); // Return first 2 as default
 }
 
-export const TOTAL_STEPS = 3;
+export const TOTAL_STEPS = 6;
