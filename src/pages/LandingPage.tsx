@@ -108,6 +108,15 @@ export function LandingPage() {
       badge: 'New',
       badgeColor: 'bg-[#F97316]',
     },
+    {
+      title: 'Variant F - Business Assessment',
+      description:
+        'Professional diagnostic approach with 3-section assessment. Captures business profile, payment habits, and rewards goals to deliver a scored report with personalized recommendations and tier-based CTAs.',
+      to: '/funnel/variant-f',
+      status: 'active',
+      badge: 'New',
+      badgeColor: 'bg-[#06B6D4]',
+    },
   ];
 
   return (
