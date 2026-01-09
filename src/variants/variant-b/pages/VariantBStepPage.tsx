@@ -8,6 +8,11 @@ import { SmartOptionGrid, SizeSelector } from '../components/form/SmartOptionGri
 import { ExpenseSlider } from '../components/form/ExpenseSlider';
 import { TransitionMessage } from '../components/feedback/TransitionMessage';
 import { TrustIndicator } from '../components/feedback/TrustBadges';
+import {
+  AccountCreationStep,
+  MobileNumberStep,
+  VerificationCodeStep,
+} from '../components/registration';
 
 export function VariantBStepPage() {
   const {
@@ -181,18 +186,29 @@ export function VariantBStepPage() {
             </div>
           )}
 
-          {/* Form sections */}
-          <div
-            className={`flex flex-col gap-6 ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
-          >
-            {stepConfig.sections.map(renderSection)}
-          </div>
+          {/* Registration components for steps 5-7 */}
+          {stepConfig.isRegistration ? (
+            <div className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}>
+              {stepConfig.registrationComponent === 'AccountCreationStep' && <AccountCreationStep />}
+              {stepConfig.registrationComponent === 'MobileNumberStep' && <MobileNumberStep />}
+              {stepConfig.registrationComponent === 'VerificationCodeStep' && <VerificationCodeStep />}
+            </div>
+          ) : (
+            <>
+              {/* Form sections */}
+              <div
+                className={`flex flex-col gap-6 ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
+              >
+                {stepConfig.sections.map(renderSection)}
+              </div>
 
-          {/* Helper text */}
-          {stepConfig.valueProposition && currentStep !== 2 && (
-            <p className="mt-4 text-sm text-[#9CA3AF] text-center">
-              {stepConfig.valueProposition}
-            </p>
+              {/* Helper text */}
+              {stepConfig.valueProposition && currentStep !== 2 && (
+                <p className="mt-4 text-sm text-[#9CA3AF] text-center">
+                  {stepConfig.valueProposition}
+                </p>
+              )}
+            </>
           )}
         </div>
 

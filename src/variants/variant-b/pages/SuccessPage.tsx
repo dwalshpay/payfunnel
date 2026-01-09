@@ -155,8 +155,19 @@ export function SuccessPage() {
             </svg>
           </div>
 
-          <h1 className="text-3xl font-bold mb-2">You're all set!</h1>
+          <h1 className="text-3xl font-bold mb-2">Account Created!</h1>
           <p className="text-white/80">Your personalized rewards plan is ready</p>
+
+          {/* Account info */}
+          {answers.registration?.email && (
+            <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              <span className="text-sm">{answers.registration.email}</span>
+            </div>
+          )}
         </div>
 
         {/* Points claimed highlight */}
@@ -191,6 +202,16 @@ export function SuccessPage() {
 
         {/* Summary */}
         <div className="px-8 py-6">
+          {/* Welcome message with name */}
+          {answers.registration?.firstName && (
+            <div className="mb-6 p-4 bg-[#F0F7FF] rounded-xl border border-[#E2E9F9]">
+              <p className="text-[#283E48]">
+                Welcome, <span className="font-bold">{answers.registration.firstName}</span>!
+                Your account has been verified and is ready to use.
+              </p>
+            </div>
+          )}
+
           <h2 className="text-lg font-bold text-[#283E48] mb-4">Your Selections</h2>
 
           <div className="space-y-4">

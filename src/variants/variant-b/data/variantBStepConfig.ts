@@ -25,6 +25,9 @@ export interface VariantBStepConfig {
   ctaText: string;
   transitionMessage?: string;
   pointsAwarded?: number;
+  // Registration step fields
+  isRegistration?: boolean;
+  registrationComponent?: 'AccountCreationStep' | 'MobileNumberStep' | 'VerificationCodeStep';
 }
 
 export const VARIANT_B_STEPS: VariantBStepConfig[] = [
@@ -203,12 +206,57 @@ export const VARIANT_B_STEPS: VariantBStepConfig[] = [
         ],
       },
     ],
-    ctaText: 'Claim My Rewards',
+    ctaText: 'Secure My Rewards',
+    transitionMessage: 'Great choices! Now let\'s secure your account...',
     pointsAwarded: 500,
+  },
+
+  // Step 6: Account Creation (Registration)
+  {
+    id: 'account-creation',
+    title: 'Create your free account',
+    subtitle: 'Secure your rewards and start earning',
+    valueProposition: 'Takes 30 seconds',
+    fields: ['registration'],
+    sections: [],
+    ctaText: 'Create Account',
+    transitionMessage: 'Account created! One more step to verify...',
+    pointsAwarded: 1000,
+    isRegistration: true,
+    registrationComponent: 'AccountCreationStep',
+  },
+
+  // Step 7: Mobile Number (Registration)
+  {
+    id: 'mobile-number',
+    title: 'Verify your identity',
+    subtitle: 'Quick mobile verification for security',
+    valueProposition: 'Earn 500 bonus points',
+    fields: ['registration'],
+    sections: [],
+    ctaText: 'Send Verification Code',
+    transitionMessage: 'Code sent! Check your phone...',
+    pointsAwarded: 0,
+    isRegistration: true,
+    registrationComponent: 'MobileNumberStep',
+  },
+
+  // Step 8: Verification Code (Registration)
+  {
+    id: 'verification-code',
+    title: 'Enter verification code',
+    subtitle: 'Check your phone for the 6-digit code',
+    valueProposition: 'Almost done!',
+    fields: ['registration'],
+    sections: [],
+    ctaText: 'Verify & Complete',
+    pointsAwarded: 500,
+    isRegistration: true,
+    registrationComponent: 'VerificationCodeStep',
   },
 ];
 
-export const VARIANT_B_TOTAL_STEPS = VARIANT_B_STEPS.length;
+export const VARIANT_B_TOTAL_STEPS = VARIANT_B_STEPS.length; // Now 8 steps
 
 export const VARIANT_B_TESTIMONIALS = [
   {

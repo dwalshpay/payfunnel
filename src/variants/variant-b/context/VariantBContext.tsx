@@ -7,6 +7,17 @@ import {
 } from 'react';
 import { VARIANT_B_TOTAL_STEPS, INDUSTRY_DEFAULTS } from '../data/variantBStepConfig';
 
+// Registration data type
+export interface RegistrationData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  referralCode: string;
+  mobileNumber: string;
+  verificationCode: string;
+}
+
 // State types
 export interface VariantBAnswers {
   // Step 1
@@ -25,6 +36,8 @@ export interface VariantBAnswers {
   partners: string[];
   // Other inputs
   otherInputs: Record<string, string>;
+  // Registration (Steps 6-8)
+  registration: RegistrationData;
 }
 
 export interface VariantBState {
@@ -47,6 +60,7 @@ type VariantBAction =
   | { type: 'TOGGLE_MULTI_ANSWER'; field: keyof VariantBAnswers; value: string }
   | { type: 'SET_EXPENSE'; value: number }
   | { type: 'SET_OTHER_INPUT'; field: string; value: string }
+  | { type: 'SET_REGISTRATION_FIELD'; field: keyof RegistrationData; value: string }
   | { type: 'NEXT_STEP'; transitionMessage?: string; pointsAwarded?: number }
   | { type: 'PREV_STEP' }
   | { type: 'GO_TO_STEP'; step: number }
@@ -68,6 +82,15 @@ const initialAnswers: VariantBAnswers = {
   redemptionOptions: [],
   partners: [],
   otherInputs: {},
+  registration: {
+    email: '',
+    firstName: '',
+    lastName: '',
+    password: '',
+    referralCode: '',
+    mobileNumber: '',
+    verificationCode: '',
+  },
 };
 
 const initialState: VariantBState = {
@@ -126,6 +149,18 @@ function variantBReducer(state: VariantBState, action: VariantBAction): VariantB
           ...state.answers,
           otherInputs: {
             ...state.answers.otherInputs,
+            [action.field]: action.value,
+          },
+        },
+      };
+
+    case 'SET_REGISTRATION_FIELD':
+      return {
+        ...state,
+        answers: {
+          ...state.answers,
+          registration: {
+            ...state.answers.registration,
             [action.field]: action.value,
           },
         },
@@ -213,6 +248,7 @@ interface VariantBContextValue {
   toggleMultiAnswer: (field: keyof VariantBAnswers, value: string) => void;
   setExpense: (value: number) => void;
   setOtherInput: (field: string, value: string) => void;
+  setRegistrationField: (field: keyof RegistrationData, value: string) => void;
   // Navigation
   nextStep: (transitionMessage?: string, pointsAwarded?: number) => void;
   prevStep: () => void;
@@ -246,6 +282,10 @@ export function VariantBProvider({ children }: { children: ReactNode }) {
 
   const setOtherInput = useCallback((field: string, value: string) => {
     dispatch({ type: 'SET_OTHER_INPUT', field, value });
+  }, []);
+
+  const setRegistrationField = useCallback((field: keyof RegistrationData, value: string) => {
+    dispatch({ type: 'SET_REGISTRATION_FIELD', field, value });
   }, []);
 
   const nextStep = useCallback((transitionMessage?: string, pointsAwarded?: number) => {
@@ -285,6 +325,12 @@ export function VariantBProvider({ children }: { children: ReactNode }) {
 
   const canProceed = useCallback((): boolean => {
     const { currentStep, answers } = state;
+    const { registration } = answers;
+
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Australian mobile number regex
+    const mobileRegex = /^(\+?61|0)4\d{8}$/;
 
     switch (currentStep) {
       case 0: // About You - role required
@@ -305,6 +351,20 @@ export function VariantBProvider({ children }: { children: ReactNode }) {
 
       case 4: // Choose Partners - at least one partner
         return answers.partners.length > 0;
+
+      case 5: // Account Creation - email, name, password required
+        return (
+          emailRegex.test(registration.email) &&
+          registration.firstName.trim().length > 0 &&
+          registration.lastName.trim().length > 0 &&
+          registration.password.length >= 6
+        );
+
+      case 6: // Mobile Number - valid Australian mobile
+        return mobileRegex.test(registration.mobileNumber.replace(/\s/g, ''));
+
+      case 7: // Verification Code - 6 digits
+        return registration.verificationCode.length === 6;
 
       default:
         return false;
@@ -327,6 +387,7 @@ export function VariantBProvider({ children }: { children: ReactNode }) {
         toggleMultiAnswer,
         setExpense,
         setOtherInput,
+        setRegistrationField,
         nextStep,
         prevStep,
         goToStep,
