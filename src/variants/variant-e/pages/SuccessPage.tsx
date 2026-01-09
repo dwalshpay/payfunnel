@@ -52,7 +52,7 @@ export function SuccessPage() {
 
         {/* Headline */}
         <h1 className="text-3xl md:text-4xl font-bold text-[#283E48] mb-3 opacity-0 animate-[fadeInUp_0.5s_ease-out_0.3s_forwards]">
-          You're all set!
+          {answers.firstName ? `Welcome, ${answers.firstName}!` : "You're all set!"}
         </h1>
 
         <p className="text-lg text-[#6B7280] mb-8 opacity-0 animate-[fadeInUp_0.5s_ease-out_0.4s_forwards]">

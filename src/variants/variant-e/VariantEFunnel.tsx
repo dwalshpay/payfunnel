@@ -3,6 +3,7 @@ import { AnchorReveal } from './components/AnchorReveal';
 import { QuickProfile } from './components/QuickProfile';
 import { RewardComparison } from './components/RewardComparison';
 import { EnrichmentAccordion } from './components/EnrichmentAccordion';
+import { AccountCreationStep } from './components/AccountCreationStep';
 import { SuccessPage } from './pages/SuccessPage';
 import { BENCHMARK_POINTS } from './utils/calculations';
 
@@ -18,7 +19,6 @@ export function VariantEFunnel() {
     nextStep,
     goToStep,
     submitEmail,
-    completeFunnel,
   } = useVariantE();
 
   const { currentStep, answers, calculated, ui, isComplete } = state;
@@ -103,12 +103,17 @@ export function VariantEFunnel() {
             });
           }
         }}
-        onComplete={completeFunnel}
-        onSkip={completeFunnel}
+        onComplete={() => goToStep(5)}
+        onSkip={() => goToStep(5)}
         currentPoints={calculated.userPoints}
         accuracy={calculated.accuracy}
       />
     );
+  }
+
+  // Step 5: Account creation
+  if (currentStep === 5) {
+    return <AccountCreationStep />;
   }
 
   return null;

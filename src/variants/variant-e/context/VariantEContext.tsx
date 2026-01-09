@@ -9,7 +9,7 @@ import { calculatePoints, calculateAccuracy, calculateComparison } from '../util
 
 // Constants
 export const BENCHMARK_POINTS = 156000;
-export const VARIANT_E_TOTAL_STEPS = 4;
+export const VARIANT_E_TOTAL_STEPS = 5;
 
 // State types
 export interface VariantEAnswers {
@@ -19,6 +19,11 @@ export interface VariantEAnswers {
   teamSize: string | null;
   paymentMethods: string[];
   paymentTypes: string[];
+  // Account creation fields
+  firstName: string | null;
+  lastName: string | null;
+  password: string | null;
+  referralCode: string | null;
 }
 
 export interface VariantECalculated {
@@ -37,7 +42,7 @@ export interface VariantEUI {
 }
 
 export interface VariantEState {
-  currentStep: 1 | 2 | 3 | 4;
+  currentStep: 1 | 2 | 3 | 4 | 5;
   answers: VariantEAnswers;
   calculated: VariantECalculated;
   ui: VariantEUI;
@@ -52,9 +57,13 @@ type VariantEAction =
   | { type: 'SET_TEAM_SIZE'; value: string }
   | { type: 'TOGGLE_PAYMENT_METHOD'; value: string }
   | { type: 'TOGGLE_PAYMENT_TYPE'; value: string }
+  | { type: 'SET_FIRST_NAME'; value: string }
+  | { type: 'SET_LAST_NAME'; value: string }
+  | { type: 'SET_PASSWORD'; value: string }
+  | { type: 'SET_REFERRAL_CODE'; value: string }
   | { type: 'NEXT_STEP' }
   | { type: 'PREV_STEP' }
-  | { type: 'GO_TO_STEP'; step: 1 | 2 | 3 | 4 }
+  | { type: 'GO_TO_STEP'; step: 1 | 2 | 3 | 4 | 5 }
   | { type: 'TOGGLE_SECTION'; sectionId: string }
   | { type: 'SET_CALCULATING'; isCalculating: boolean }
   | { type: 'SUBMIT_EMAIL' }
@@ -70,6 +79,10 @@ const initialAnswers: VariantEAnswers = {
   teamSize: null,
   paymentMethods: [],
   paymentTypes: [],
+  firstName: null,
+  lastName: null,
+  password: null,
+  referralCode: null,
 };
 
 const initialCalculated: VariantECalculated = {
@@ -182,16 +195,40 @@ function variantEReducer(state: VariantEState, action: VariantEAction): VariantE
       };
     }
 
+    case 'SET_FIRST_NAME':
+      return {
+        ...state,
+        answers: { ...state.answers, firstName: action.value },
+      };
+
+    case 'SET_LAST_NAME':
+      return {
+        ...state,
+        answers: { ...state.answers, lastName: action.value },
+      };
+
+    case 'SET_PASSWORD':
+      return {
+        ...state,
+        answers: { ...state.answers, password: action.value },
+      };
+
+    case 'SET_REFERRAL_CODE':
+      return {
+        ...state,
+        answers: { ...state.answers, referralCode: action.value },
+      };
+
     case 'NEXT_STEP':
       return {
         ...state,
-        currentStep: Math.min(state.currentStep + 1, VARIANT_E_TOTAL_STEPS) as 1 | 2 | 3 | 4,
+        currentStep: Math.min(state.currentStep + 1, VARIANT_E_TOTAL_STEPS) as 1 | 2 | 3 | 4 | 5,
       };
 
     case 'PREV_STEP':
       return {
         ...state,
-        currentStep: Math.max(state.currentStep - 1, 1) as 1 | 2 | 3 | 4,
+        currentStep: Math.max(state.currentStep - 1, 1) as 1 | 2 | 3 | 4 | 5,
       };
 
     case 'GO_TO_STEP':
@@ -256,10 +293,14 @@ interface VariantEContextValue {
   setTeamSize: (value: string) => void;
   togglePaymentMethod: (value: string) => void;
   togglePaymentType: (value: string) => void;
+  setFirstName: (value: string) => void;
+  setLastName: (value: string) => void;
+  setPassword: (value: string) => void;
+  setReferralCode: (value: string) => void;
   // Navigation
   nextStep: () => void;
   prevStep: () => void;
-  goToStep: (step: 1 | 2 | 3 | 4) => void;
+  goToStep: (step: 1 | 2 | 3 | 4 | 5) => void;
   // UI
   toggleSection: (sectionId: string) => void;
   submitEmail: () => void;
@@ -268,6 +309,7 @@ interface VariantEContextValue {
   completeFunnel: () => void;
   // Validation
   canProceedFromStep2: () => boolean;
+  canProceedFromStep5: () => boolean;
 }
 
 const VariantEContext = createContext<VariantEContextValue | null>(null);
@@ -300,6 +342,22 @@ export function VariantEProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'TOGGLE_PAYMENT_TYPE', value });
   }, []);
 
+  const setFirstName = useCallback((value: string) => {
+    dispatch({ type: 'SET_FIRST_NAME', value });
+  }, []);
+
+  const setLastName = useCallback((value: string) => {
+    dispatch({ type: 'SET_LAST_NAME', value });
+  }, []);
+
+  const setPassword = useCallback((value: string) => {
+    dispatch({ type: 'SET_PASSWORD', value });
+  }, []);
+
+  const setReferralCode = useCallback((value: string) => {
+    dispatch({ type: 'SET_REFERRAL_CODE', value });
+  }, []);
+
   const nextStep = useCallback(() => {
     dispatch({ type: 'NEXT_STEP' });
   }, []);
@@ -308,7 +366,7 @@ export function VariantEProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'PREV_STEP' });
   }, []);
 
-  const goToStep = useCallback((step: 1 | 2 | 3 | 4) => {
+  const goToStep = useCallback((step: 1 | 2 | 3 | 4 | 5) => {
     dispatch({ type: 'GO_TO_STEP', step });
   }, []);
 
@@ -336,6 +394,15 @@ export function VariantEProvider({ children }: { children: ReactNode }) {
     return state.answers.industry !== null && state.answers.spend !== null;
   }, [state.answers.industry, state.answers.spend]);
 
+  const canProceedFromStep5 = useCallback((): boolean => {
+    const { firstName, lastName, password } = state.answers;
+    return (
+      firstName !== null && firstName.trim().length > 0 &&
+      lastName !== null && lastName.trim().length > 0 &&
+      password !== null && password.length >= 6
+    );
+  }, [state.answers.firstName, state.answers.lastName, state.answers.password]);
+
   return (
     <VariantEContext.Provider
       value={{
@@ -346,6 +413,10 @@ export function VariantEProvider({ children }: { children: ReactNode }) {
         setTeamSize,
         togglePaymentMethod,
         togglePaymentType,
+        setFirstName,
+        setLastName,
+        setPassword,
+        setReferralCode,
         nextStep,
         prevStep,
         goToStep,
@@ -355,6 +426,7 @@ export function VariantEProvider({ children }: { children: ReactNode }) {
         hideConfetti,
         completeFunnel,
         canProceedFromStep2,
+        canProceedFromStep5,
       }}
     >
       {children}

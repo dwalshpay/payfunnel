@@ -36,7 +36,7 @@ export function VariantELayout({ children }: VariantELayoutProps) {
         {/* Step indicator */}
         {!isComplete && currentStep > 1 && (
           <div className="flex items-center gap-1.5">
-            {[2, 3, 4].map((step) => (
+            {[2, 3, 4, 5].map((step) => (
               <div
                 key={step}
                 className={`
