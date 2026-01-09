@@ -174,6 +174,18 @@ export const VARIANT_D_STEPS: VariantDStepConfig[] = [
       },
     ],
     ctaText: 'Unlock My Rewards',
+    transitionMessage: 'Almost there! Secure your rewards now.',
+  },
+
+  // Step 5: Account Creation
+  {
+    id: 'account-creation',
+    title: 'Secure your rewards',
+    subtitle: 'Create your account to start earning',
+    fields: ['email', 'firstName', 'lastName', 'password'],
+    sections: [], // Custom form layout, not SmartOptionGrid
+    ctaText: 'Create Account & Start Earning',
+    transitionMessage: "You're all set! Let's see your rewards.",
   },
 ];
 

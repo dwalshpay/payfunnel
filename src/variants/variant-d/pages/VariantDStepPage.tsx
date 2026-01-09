@@ -4,6 +4,7 @@ import { StepIndicator } from '../components/layout/StepIndicator';
 import { SmartOptionGrid, SizeSelector } from '../components/form/SmartOptionGrid';
 import { ExpenseSlider } from '../components/form/ExpenseSlider';
 import { TransitionOverlay } from '../components/feedback/TransitionOverlay';
+import { AccountCreationStep } from '../components/registration/AccountCreationStep';
 
 export function VariantDStepPage() {
   const {
@@ -149,7 +150,11 @@ export function VariantDStepPage() {
           <div
             className={`flex flex-col gap-6 ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
           >
-            {stepConfig.sections.map(renderSection)}
+            {currentStep === 4 ? (
+              <AccountCreationStep />
+            ) : (
+              stepConfig.sections.map(renderSection)
+            )}
           </div>
         </div>
 

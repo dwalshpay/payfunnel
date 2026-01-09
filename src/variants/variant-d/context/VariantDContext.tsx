@@ -7,6 +7,15 @@ import {
 } from 'react';
 import { VARIANT_D_TOTAL_STEPS, INDUSTRY_DEFAULTS } from '../data/variantDStepConfig';
 
+// Registration data for account creation
+export interface RegistrationData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  referralCode: string;
+}
+
 // State types
 export interface VariantDAnswers {
   // Step 1
@@ -21,6 +30,8 @@ export interface VariantDAnswers {
   // Step 4
   partners: string[];
   redemptionPreference: string[];
+  // Step 5 - Account creation
+  registration: RegistrationData;
   // Other inputs
   otherInputs: Record<string, string>;
 }
@@ -58,9 +69,18 @@ type VariantDAction =
   | { type: 'GO_TO_STEP'; step: number }
   | { type: 'SET_LOADING'; isLoading: boolean }
   | { type: 'CLEAR_TRANSITION' }
-  | { type: 'COMPLETE_FUNNEL' };
+  | { type: 'COMPLETE_FUNNEL' }
+  | { type: 'SET_REGISTRATION_FIELD'; field: keyof RegistrationData; value: string };
 
 // Initial state
+const initialRegistration: RegistrationData = {
+  email: '',
+  firstName: '',
+  lastName: '',
+  password: '',
+  referralCode: '',
+};
+
 const initialAnswers: VariantDAnswers = {
   role: null,
   industry: null,
@@ -70,6 +90,7 @@ const initialAnswers: VariantDAnswers = {
   paymentTypes: [],
   partners: [],
   redemptionPreference: [],
+  registration: initialRegistration,
   otherInputs: {},
 };
 
@@ -201,6 +222,18 @@ function variantDReducer(state: VariantDState, action: VariantDAction): VariantD
         isLoading: false,
       };
 
+    case 'SET_REGISTRATION_FIELD':
+      return {
+        ...state,
+        answers: {
+          ...state.answers,
+          registration: {
+            ...state.answers.registration,
+            [action.field]: action.value,
+          },
+        },
+      };
+
     default:
       return state;
   }
@@ -216,6 +249,7 @@ interface VariantDContextValue {
   setOtherInput: (field: string, value: string) => void;
   applySmartDefaults: (industry: string) => void;
   updateRewards: (rewards: VariantDRewards) => void;
+  setRegistrationField: (field: keyof RegistrationData, value: string) => void;
   // Navigation
   nextStep: (transitionMessage?: string) => void;
   prevStep: () => void;
@@ -255,6 +289,10 @@ export function VariantDProvider({ children }: { children: ReactNode }) {
 
   const updateRewards = useCallback((rewards: VariantDRewards) => {
     dispatch({ type: 'UPDATE_REWARDS', rewards });
+  }, []);
+
+  const setRegistrationField = useCallback((field: keyof RegistrationData, value: string) => {
+    dispatch({ type: 'SET_REGISTRATION_FIELD', field, value });
   }, []);
 
   const nextStep = useCallback((transitionMessage?: string) => {
@@ -303,6 +341,16 @@ export function VariantDProvider({ children }: { children: ReactNode }) {
       case 3: // Claim Rewards - at least one partner
         return answers.partners.length > 0;
 
+      case 4: // Account Creation
+        const { registration } = answers;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return (
+          emailRegex.test(registration.email) &&
+          registration.firstName.trim().length > 0 &&
+          registration.lastName.trim().length > 0 &&
+          registration.password.length >= 6
+        );
+
       default:
         return false;
     }
@@ -326,6 +374,7 @@ export function VariantDProvider({ children }: { children: ReactNode }) {
         setOtherInput,
         applySmartDefaults,
         updateRewards,
+        setRegistrationField,
         nextStep,
         prevStep,
         goToStep,
