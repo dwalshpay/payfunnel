@@ -26,6 +26,16 @@ export interface VariantAStepConfig {
   transitionMessage?: string;
 }
 
+// Registration step configuration
+export interface VariantARegistrationStepConfig {
+  id: string;
+  title: string;
+  subtitle?: string;
+  type: 'registration';
+  registrationComponent: 'AccountCreationStep' | 'MobileNumberStep' | 'VerificationCodeStep';
+  ctaText: string;
+}
+
 export const VARIANT_A_STEPS: VariantAStepConfig[] = [
   // Step 1: About You (Role only - auto-advance)
   {
@@ -198,11 +208,41 @@ export const VARIANT_A_STEPS: VariantAStepConfig[] = [
         ],
       },
     ],
-    ctaText: 'Unlock My Rewards',
+    ctaText: 'Continue to Account Setup',
+    transitionMessage: 'Great choices! Let\'s create your account.',
   },
 ];
 
-export const VARIANT_A_TOTAL_STEPS = VARIANT_A_STEPS.length;
+// Registration steps (Steps 6-8)
+export const VARIANT_A_REGISTRATION_STEPS: VariantARegistrationStepConfig[] = [
+  {
+    id: 'account-creation',
+    title: 'Create your free account',
+    subtitle: 'Start earning rewards today',
+    type: 'registration',
+    registrationComponent: 'AccountCreationStep',
+    ctaText: 'Create Account',
+  },
+  {
+    id: 'mobile-number',
+    title: 'Verify your identity',
+    subtitle: "We'll send a code to your phone",
+    type: 'registration',
+    registrationComponent: 'MobileNumberStep',
+    ctaText: 'Send Code',
+  },
+  {
+    id: 'verification-code',
+    title: 'Enter verification code',
+    subtitle: 'Check your phone for the 6-digit code',
+    type: 'registration',
+    registrationComponent: 'VerificationCodeStep',
+    ctaText: 'Verify & Complete',
+  },
+];
+
+// Total steps including registration (5 profile + 3 registration)
+export const VARIANT_A_TOTAL_STEPS = VARIANT_A_STEPS.length + VARIANT_A_REGISTRATION_STEPS.length;
 
 export const VARIANT_A_TESTIMONIALS = [
   {

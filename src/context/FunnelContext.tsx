@@ -1,7 +1,17 @@
 import { createContext, useContext, useReducer } from 'react';
 import type { ReactNode } from 'react';
-import type { FunnelState, FunnelAction, FunnelAnswers } from '../types/funnel';
+import type { FunnelState, FunnelAction, FunnelAnswers, RegistrationData } from '../types/funnel';
 import { TOTAL_STEPS } from '../data/stepConfig';
+
+const initialRegistration: RegistrationData = {
+  email: '',
+  firstName: '',
+  lastName: '',
+  password: '',
+  referralCode: '',
+  mobileNumber: '',
+  verificationCode: '',
+};
 
 const initialAnswers: FunnelAnswers = {
   role: null,
@@ -14,12 +24,14 @@ const initialAnswers: FunnelAnswers = {
   redemptionOptions: [],
   partners: [],
   otherInputs: {},
+  registration: initialRegistration,
 };
 
 const initialState: FunnelState = {
   currentStep: 0,
   answers: initialAnswers,
   isLoading: false,
+  isComplete: false,
 };
 
 function funnelReducer(state: FunnelState, action: FunnelAction): FunnelState {
@@ -51,6 +63,17 @@ function funnelReducer(state: FunnelState, action: FunnelAction): FunnelState {
           },
         },
       };
+    case 'SET_REGISTRATION_FIELD':
+      return {
+        ...state,
+        answers: {
+          ...state.answers,
+          registration: {
+            ...state.answers.registration,
+            [action.field]: action.value,
+          },
+        },
+      };
     case 'NEXT_STEP':
       return {
         ...state,
@@ -71,6 +94,11 @@ function funnelReducer(state: FunnelState, action: FunnelAction): FunnelState {
         ...state,
         currentStep: Math.max(0, Math.min(action.step, TOTAL_STEPS - 1)),
       };
+    case 'COMPLETE_FUNNEL':
+      return {
+        ...state,
+        isComplete: true,
+      };
     default:
       return state;
   }
@@ -83,10 +111,12 @@ interface FunnelContextValue {
   setMultiAnswer: (field: keyof FunnelAnswers, value: string[]) => void;
   toggleMultiAnswer: (field: keyof FunnelAnswers, value: string) => void;
   setOtherInput: (field: string, value: string) => void;
+  setRegistrationField: (field: keyof RegistrationData, value: string) => void;
   nextStep: () => void;
   prevStep: () => void;
   goToStep: (step: number) => void;
   canProceed: () => boolean;
+  completeFunnel: () => void;
 }
 
 const FunnelContext = createContext<FunnelContextValue | null>(null);
@@ -114,12 +144,12 @@ export function FunnelProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SET_OTHER_INPUT', field, value });
   };
 
+  const setRegistrationField = (field: keyof RegistrationData, value: string) => {
+    dispatch({ type: 'SET_REGISTRATION_FIELD', field, value });
+  };
+
   const nextStep = () => {
-    dispatch({ type: 'SET_LOADING', value: true });
-    setTimeout(() => {
-      dispatch({ type: 'NEXT_STEP' });
-      dispatch({ type: 'SET_LOADING', value: false });
-    }, 500);
+    dispatch({ type: 'NEXT_STEP' });
   };
 
   const prevStep = () => {
@@ -128,6 +158,10 @@ export function FunnelProvider({ children }: { children: ReactNode }) {
 
   const goToStep = (step: number) => {
     dispatch({ type: 'GO_TO_STEP', step });
+  };
+
+  const completeFunnel = () => {
+    dispatch({ type: 'COMPLETE_FUNNEL' });
   };
 
   const canProceed = (): boolean => {
@@ -164,10 +198,12 @@ export function FunnelProvider({ children }: { children: ReactNode }) {
         setMultiAnswer,
         toggleMultiAnswer,
         setOtherInput,
+        setRegistrationField,
         nextStep,
         prevStep,
         goToStep,
         canProceed,
+        completeFunnel,
       }}
     >
       {children}

@@ -9,7 +9,7 @@ interface ValueMeterProps {
 export function ValueMeter({
   value,
   confidence,
-  label = 'Estimated Annual Rewards',
+  label = 'Estimated Annual Points',
 }: ValueMeterProps) {
   const [displayValue, setDisplayValue] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -56,13 +56,8 @@ export function ValueMeter({
     high: 'Accurate estimate',
   };
 
-  // Format the animated value
-  const animatedFormatted = new Intl.NumberFormat('en-AU', {
-    style: 'currency',
-    currency: 'AUD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(displayValue);
+  // Format the animated value as points with commas
+  const animatedFormatted = new Intl.NumberFormat('en-AU').format(displayValue);
 
   return (
     <div
@@ -81,9 +76,9 @@ export function ValueMeter({
               value > 0 ? 'text-[#3866B0]' : 'text-[#BDBDBD]'
             }`}
           >
-            {value > 0 ? animatedFormatted : '$0'}
+            {value > 0 ? animatedFormatted : '0'}
           </span>
-          <span className="text-lg text-[#6B7280]">/year</span>
+          <span className="text-lg text-[#6B7280]">pts/year</span>
         </div>
 
         {/* Confidence indicator */}

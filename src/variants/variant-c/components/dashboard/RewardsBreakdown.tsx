@@ -3,12 +3,8 @@ import { useEffect, useState } from 'react';
 interface RewardsBreakdownProps {
   doubleDip: {
     creditCardPoints: number;
-    creditCardValue: number;
     payRewardsPoints: number;
-    payRewardsValue: number;
     totalPoints: number;
-    totalValue: number;
-    qantasPointsEquivalent: number;
   };
 }
 
@@ -92,13 +88,6 @@ export function RewardsBreakdown({ doubleDip }: RewardsBreakdownProps) {
         </span>
       </div>
 
-      {/* Qantas equivalent */}
-      <div className="bg-white/10 rounded-lg px-3 py-2 flex items-center justify-between">
-        <span className="text-[12px] opacity-80">Qantas Points equivalent</span>
-        <span className="text-[13px] font-semibold">
-          ~{doubleDip.qantasPointsEquivalent.toLocaleString()}
-        </span>
-      </div>
     </div>
   );
 }

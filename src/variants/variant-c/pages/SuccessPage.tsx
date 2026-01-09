@@ -17,11 +17,11 @@ export function SuccessPage() {
   });
 
   const destinations = useDestinationConverter(
-    rewards.doubleDip.qantasPointsEquivalent
+    rewards.doubleDip.totalPoints
   );
 
   const destinationInfo = formatDestinationSummary(
-    rewards.doubleDip.qantasPointsEquivalent
+    rewards.doubleDip.totalPoints
   );
 
   // Animated counter
@@ -165,10 +165,10 @@ export function SuccessPage() {
         {/* Main rewards card */}
         <div className="bg-gradient-to-br from-[#3866B0] to-[#2D5490] rounded-2xl p-6 md:p-8 text-white text-center shadow-xl mb-6">
           <div className="text-[14px] opacity-80 mb-1">
-            Estimated Annual Rewards Value
+            Estimated Annual Points
           </div>
           <div className="text-[48px] md:text-[64px] font-bold leading-none mb-4">
-            ${displayValue.toLocaleString()}
+            {displayValue.toLocaleString()} pts
           </div>
 
           {/* Breakdown */}

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { TrustBadges } from '../feedback/TrustBadges';
 import { Sidebar } from './Sidebar';
 import { useVariantB } from '../../context/VariantBContext';
@@ -24,7 +25,15 @@ export function VariantBLayout({ children }: VariantBLayoutProps) {
     <div className="min-h-screen bg-gradient-to-br from-[#EEF2F8] via-[#F5F8FC] to-[#E8EEF5] flex flex-col">
       {/* Header */}
       <header className="h-16 px-6 flex items-center justify-between border-b border-[rgba(0,0,0,0.06)] bg-white/80 backdrop-blur-sm sticky top-0 z-40">
-        <Logo />
+        <div className="flex items-center gap-6">
+          <Logo />
+          <Link
+            to="/"
+            className="text-sm text-[#6B7280] hover:text-[#3866B0] border border-[#E5E7EB] hover:border-[#3866B0] rounded-lg px-3 py-1.5 transition-colors"
+          >
+            Funnel Dashboard
+          </Link>
+        </div>
 
         {/* Points indicator in header (visible after step 1) */}
         {currentStep > 0 && !isComplete && (

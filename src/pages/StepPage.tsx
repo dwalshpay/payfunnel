@@ -6,6 +6,11 @@ import { Tooltip } from '../components/form/Tooltip';
 import { SkeletonLoader } from '../components/form/SkeletonLoader';
 import { useFunnel } from '../context/FunnelContext';
 import { STEPS, TOTAL_STEPS } from '../data/stepConfig';
+import {
+  AccountCreationForm,
+  MobileNumberInput,
+  VerificationCodeInput,
+} from '../components/registration';
 
 export function StepPage() {
   const {
@@ -13,9 +18,12 @@ export function StepPage() {
     setSingleAnswer,
     toggleMultiAnswer,
     setOtherInput,
+    setRegistrationField,
     nextStep,
     prevStep,
+    goToStep,
     canProceed,
+    completeFunnel,
   } = useFunnel();
 
   const { currentStep, answers, isLoading } = state;
@@ -42,13 +50,54 @@ export function StepPage() {
   };
 
   const isLastStep = currentStep === TOTAL_STEPS - 1;
+  const isRegistrationStep = stepConfig.type === 'registration';
+
+  // Custom validation for registration steps
+  const canProceedRegistration = (): boolean => {
+    const { registration } = answers;
+
+    if (stepConfig.registrationComponent === 'AccountCreationForm') {
+      // Validate account creation form
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return (
+        emailRegex.test(registration.email) &&
+        registration.firstName.trim().length > 0 &&
+        registration.lastName.trim().length > 0 &&
+        registration.password.length >= 6
+      );
+    }
+
+    if (stepConfig.registrationComponent === 'MobileNumberInput') {
+      // Validate Australian mobile number
+      const cleaned = registration.mobileNumber.replace(/[\s-]/g, '');
+      const mobileRegex = /^(?:\+61|0)4\d{8}$/;
+      return mobileRegex.test(cleaned);
+    }
+
+    if (stepConfig.registrationComponent === 'VerificationCodeInput') {
+      // Validate 6-digit code
+      return registration.verificationCode.length === 6;
+    }
+
+    return false;
+  };
+
+  const handleContinue = () => {
+    if (isLastStep) {
+      completeFunnel();
+    } else {
+      nextStep();
+    }
+  };
+
+  const canProceedCurrent = isRegistrationStep ? canProceedRegistration() : canProceed();
 
   const navigation = (
     <NavigationBar
       currentStep={currentStep}
       onBack={prevStep}
-      onContinue={nextStep}
-      canProceed={canProceed()}
+      onContinue={handleContinue}
+      canProceed={canProceedCurrent}
       isLoading={isLoading}
       isLastStep={isLastStep}
     />
@@ -85,7 +134,27 @@ export function StepPage() {
           )}
 
           {/* Content based on step type */}
-          {stepConfig.type === 'input' ? (
+          {stepConfig.type === 'registration' ? (
+            // Registration components
+            stepConfig.registrationComponent === 'AccountCreationForm' ? (
+              <AccountCreationForm
+                registration={answers.registration}
+                onFieldChange={setRegistrationField}
+                estimatedPoints={156000}
+              />
+            ) : stepConfig.registrationComponent === 'MobileNumberInput' ? (
+              <MobileNumberInput
+                registration={answers.registration}
+                onFieldChange={setRegistrationField}
+              />
+            ) : stepConfig.registrationComponent === 'VerificationCodeInput' ? (
+              <VerificationCodeInput
+                registration={answers.registration}
+                onFieldChange={setRegistrationField}
+                onCancel={() => goToStep(currentStep - 1)}
+              />
+            ) : null
+          ) : stepConfig.type === 'input' ? (
             <TextInput
               label={stepConfig.inputLabel || ''}
               value={(answers[stepConfig.field] as string) || ''}

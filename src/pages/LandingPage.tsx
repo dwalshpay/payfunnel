@@ -99,6 +99,15 @@ export function LandingPage() {
       badge: 'New',
       badgeColor: 'bg-[#8B5CF6]',
     },
+    {
+      title: 'Variant E - Reward Anchor',
+      description:
+        'Flips the traditional funnel by leading with the payoff. Shows 156K benchmark points first, then quick 2-question profile, personalized results with confetti celebration, and optional enrichment.',
+      to: '/funnel/variant-e',
+      status: 'active',
+      badge: 'New',
+      badgeColor: 'bg-[#F97316]',
+    },
   ];
 
   return (

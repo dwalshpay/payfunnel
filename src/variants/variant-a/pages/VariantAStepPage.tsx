@@ -1,5 +1,5 @@
 import { useVariantA } from '../context/VariantAContext';
-import { VARIANT_A_STEPS, VARIANT_A_TOTAL_STEPS } from '../data/variantAStepConfig';
+import { VARIANT_A_STEPS, VARIANT_A_REGISTRATION_STEPS, VARIANT_A_TOTAL_STEPS } from '../data/variantAStepConfig';
 import { useRewardsCalculator } from '../hooks/useRewardsCalculator';
 import { StepIndicator } from '../components/layout/StepIndicator';
 import { ValueMeter } from '../components/layout/ValueMeter';
@@ -7,6 +7,7 @@ import { SmartOptionGrid, SizeSelector } from '../components/form/SmartOptionGri
 import { ExpenseSlider } from '../components/form/ExpenseSlider';
 import { TransitionMessage } from '../components/feedback/TransitionMessage';
 import { TrustIndicator } from '../components/feedback/TrustBadges';
+import { AccountCreationStep, MobileNumberStep, VerificationCodeStep } from '../components/registration';
 
 export function VariantAStepPage() {
   const {
@@ -22,7 +23,19 @@ export function VariantAStepPage() {
   } = useVariantA();
 
   const { currentStep, answers, isLoading, transitionMessage } = state;
-  const stepConfig = VARIANT_A_STEPS[currentStep];
+
+  // Determine if we're on a profile step or registration step
+  const isRegistrationStep = currentStep >= VARIANT_A_STEPS.length;
+  const registrationStepIndex = currentStep - VARIANT_A_STEPS.length;
+
+  // Get the appropriate step config
+  const stepConfig = isRegistrationStep
+    ? null
+    : VARIANT_A_STEPS[currentStep];
+
+  const registrationStepConfig = isRegistrationStep
+    ? VARIANT_A_REGISTRATION_STEPS[registrationStepIndex]
+    : null;
 
   // Calculate rewards for display
   const rewards = useRewardsCalculator({
@@ -35,9 +48,12 @@ export function VariantAStepPage() {
   const handleContinue = () => {
     if (currentStep === VARIANT_A_TOTAL_STEPS - 1) {
       completeFunnel();
+    } else if (isRegistrationStep) {
+      // No transition message for registration steps
+      nextStep();
     } else {
       // Replace {rewards} placeholder in transition message
-      const message = stepConfig.transitionMessage?.replace(
+      const message = stepConfig?.transitionMessage?.replace(
         '{rewards}',
         rewards.formattedRewards
       );
@@ -45,11 +61,27 @@ export function VariantAStepPage() {
     }
   };
 
+  // Render registration component based on step
+  const renderRegistrationComponent = () => {
+    if (!registrationStepConfig) return null;
+
+    switch (registrationStepConfig.registrationComponent) {
+      case 'AccountCreationStep':
+        return <AccountCreationStep />;
+      case 'MobileNumberStep':
+        return <MobileNumberStep />;
+      case 'VerificationCodeStep':
+        return <VerificationCodeStep />;
+      default:
+        return null;
+    }
+  };
+
   const handleSingleSelect = (field: string, value: string) => {
     setSingleAnswer(field as keyof typeof answers, value);
 
     // Auto-advance on step 1 (role selection)
-    if (currentStep === 0) {
+    if (currentStep === 0 && stepConfig) {
       setTimeout(() => {
         nextStep(stepConfig.transitionMessage);
       }, 300);
@@ -61,7 +93,7 @@ export function VariantAStepPage() {
   };
 
   // Render section based on type
-  const renderSection = (section: (typeof stepConfig.sections)[0]) => {
+  const renderSection = (section: (typeof VARIANT_A_STEPS)[0]['sections'][0]) => {
     const { id, type, field, options, label, maxSelections } = section;
 
     switch (type) {
@@ -134,6 +166,11 @@ export function VariantAStepPage() {
     }
   };
 
+  // Get title and subtitle for current step
+  const title = isRegistrationStep ? registrationStepConfig?.title : stepConfig?.title;
+  const subtitle = isRegistrationStep ? registrationStepConfig?.subtitle : stepConfig?.subtitle;
+  const ctaText = isRegistrationStep ? registrationStepConfig?.ctaText : stepConfig?.ctaText;
+
   return (
     <>
       {/* Transition message overlay */}
@@ -151,35 +188,44 @@ export function VariantAStepPage() {
           {/* Header */}
           <div className="mb-6">
             <h1 className="text-[28px] font-bold text-[#283E48] leading-tight">
-              {stepConfig.title}
+              {title}
             </h1>
-            {stepConfig.subtitle && (
-              <p className="mt-2 text-[16px] text-[#6B7280]">{stepConfig.subtitle}</p>
+            {subtitle && (
+              <p className="mt-2 text-[16px] text-[#6B7280]">{subtitle}</p>
             )}
           </div>
 
-          {/* Value proposition / Rewards meter for step 3 */}
-          {currentStep === 2 && (
-            <div className="mb-6">
-              <ValueMeter
-                value={rewards.annualRewards}
-                confidence={rewards.confidence}
-              />
+          {/* Registration steps */}
+          {isRegistrationStep ? (
+            <div className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}>
+              {renderRegistrationComponent()}
             </div>
-          )}
+          ) : (
+            <>
+              {/* Value proposition / Rewards meter for step 3 */}
+              {currentStep === 2 && (
+                <div className="mb-6">
+                  <ValueMeter
+                    value={rewards.annualRewards}
+                    confidence={rewards.confidence}
+                  />
+                </div>
+              )}
 
-          {/* Form sections */}
-          <div
-            className={`flex flex-col gap-6 ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
-          >
-            {stepConfig.sections.map(renderSection)}
-          </div>
+              {/* Form sections */}
+              <div
+                className={`flex flex-col gap-6 ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
+              >
+                {stepConfig?.sections.map(renderSection)}
+              </div>
 
-          {/* Helper text */}
-          {stepConfig.valueProposition && currentStep !== 2 && (
-            <p className="mt-4 text-sm text-[#9CA3AF] text-center">
-              {stepConfig.valueProposition}
-            </p>
+              {/* Helper text */}
+              {stepConfig?.valueProposition && currentStep !== 2 && (
+                <p className="mt-4 text-sm text-[#9CA3AF] text-center">
+                  {stepConfig.valueProposition}
+                </p>
+              )}
+            </>
           )}
         </div>
 
@@ -234,7 +280,7 @@ export function VariantAStepPage() {
                   </svg>
                 </span>
               ) : (
-                stepConfig.ctaText
+                ctaText
               )}
             </button>
           </div>

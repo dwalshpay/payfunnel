@@ -6,17 +6,15 @@ import { INDUSTRY_AVERAGES } from '../../data/variantCStepConfig';
 
 interface LiveRewardsDashboardProps {
   rewards: {
+    annualPoints: number;
+    formattedPoints: string;
     annualRewards: number;
     formattedRewards: string;
     confidence: 'low' | 'medium' | 'high';
     doubleDip: {
       creditCardPoints: number;
-      creditCardValue: number;
       payRewardsPoints: number;
-      payRewardsValue: number;
       totalPoints: number;
-      totalValue: number;
-      qantasPointsEquivalent: number;
     };
   };
   industry: string | null;
@@ -28,14 +26,15 @@ export function LiveRewardsDashboard({
   industry,
   currentStep,
 }: LiveRewardsDashboardProps) {
+  // Use total points for destination converter
   const destinations = useDestinationConverter(
-    rewards.doubleDip.qantasPointsEquivalent
+    rewards.doubleDip.totalPoints
   );
 
-  // Industry comparison for social proof
+  // Industry comparison for social proof (using points)
   const industryAverage = industry ? INDUSTRY_AVERAGES[industry] : null;
   const isAboveAverage = industryAverage
-    ? rewards.annualRewards > industryAverage
+    ? rewards.annualPoints > industryAverage
     : false;
 
   return (
@@ -46,10 +45,10 @@ export function LiveRewardsDashboard({
         <div className="flex items-start justify-between mb-4">
           <div>
             <h3 className="text-[14px] font-medium opacity-90 mb-1">
-              Your Estimated Annual Rewards
+              Your Estimated Annual Points
             </h3>
             <div className="text-[36px] font-bold leading-tight">
-              {rewards.formattedRewards}
+              {rewards.formattedPoints}
             </div>
           </div>
           <div className="bg-white/20 rounded-full px-3 py-1 text-[12px] font-medium">
@@ -70,7 +69,7 @@ export function LiveRewardsDashboard({
       </div>
 
       {/* Destination visualizer - shows after step 1 */}
-      {currentStep >= 2 && rewards.annualRewards > 0 && (
+      {currentStep >= 2 && rewards.annualPoints > 0 && (
         <DestinationVisualizer destinations={destinations} />
       )}
 
@@ -115,7 +114,7 @@ export function LiveRewardsDashboard({
               </div>
               <div className="text-[13px] text-[#6B7280]">
                 {industry.charAt(0).toUpperCase() + industry.slice(1)} businesses
-                earn avg ${industryAverage.toLocaleString()}/year
+                earn avg {industryAverage.toLocaleString()} pts/year
               </div>
             </div>
           </div>

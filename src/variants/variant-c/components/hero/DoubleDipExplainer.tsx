@@ -1,13 +1,13 @@
 interface DoubleDipExplainerProps {
   creditCardPoints: number;
   payRewardsPoints: number;
-  totalValue: number;
+  totalPoints: number;
 }
 
 export function DoubleDipExplainer({
   creditCardPoints,
   payRewardsPoints,
-  totalValue,
+  totalPoints,
 }: DoubleDipExplainerProps) {
   return (
     <div className="bg-white rounded-2xl p-6 shadow-lg border border-[#E2E9F9]">
@@ -83,10 +83,10 @@ export function DoubleDipExplainer({
         {/* Total */}
         <div className="flex items-center justify-between pt-2">
           <div className="text-[16px] font-semibold text-[#283E48]">
-            Total annual value
+            Total annual points
           </div>
           <div className="text-[24px] font-bold text-[#3866B0]">
-            ${totalValue.toLocaleString()}
+            {totalPoints.toLocaleString()} pts
           </div>
         </div>
       </div>

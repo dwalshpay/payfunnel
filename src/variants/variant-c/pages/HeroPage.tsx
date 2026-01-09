@@ -15,7 +15,7 @@ export function HeroPage() {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
-    const target = rewards.annualValue;
+    const target = rewards.annualPoints;
     const duration = 800;
     const steps = 40;
     const increment = target / steps;
@@ -34,7 +34,7 @@ export function HeroPage() {
     }, duration / steps);
 
     return () => clearInterval(timer);
-  }, [rewards.annualValue]);
+  }, [rewards.annualPoints]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#EEF2F8] via-[#F5F8FC] to-[#E8EEF5]">
@@ -92,13 +92,13 @@ export function HeroPage() {
             {/* Rewards display */}
             <div className="bg-gradient-to-br from-[#3866B0] to-[#2D5490] rounded-2xl p-6 md:p-8 text-white text-center shadow-xl">
               <div className="text-[14px] opacity-80 mb-2">
-                Your estimated annual rewards
+                Your estimated annual points
               </div>
               <div className="text-[48px] md:text-[56px] font-bold leading-none mb-2">
-                ${displayValue.toLocaleString()}
+                {displayValue.toLocaleString()} pts
               </div>
               <div className="text-[14px] opacity-80">
-                ~{rewards.qantasPoints.toLocaleString()} Qantas Points equivalent
+                {rewards.creditCardPoints.toLocaleString()} credit card + {rewards.payRewardsPoints.toLocaleString()} PayRewards
               </div>
             </div>
 
@@ -139,9 +139,9 @@ export function HeroPage() {
           <div className="space-y-6">
             {/* Double-dip explainer */}
             <DoubleDipExplainer
-              creditCardPoints={Math.round(heroExpensePreview * 12 * 0.015)}
-              payRewardsPoints={Math.round(heroExpensePreview * 12 * 0.01)}
-              totalValue={rewards.annualValue}
+              creditCardPoints={rewards.creditCardPoints}
+              payRewardsPoints={rewards.payRewardsPoints}
+              totalPoints={rewards.annualPoints}
             />
 
             {/* Trust badges */}

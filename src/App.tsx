@@ -1,19 +1,33 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { FunnelProvider } from './context/FunnelContext';
+import { FunnelProvider, useFunnel } from './context/FunnelContext';
 import { FunnelLayout } from './components/layout/FunnelLayout';
 import { StepPage } from './pages/StepPage';
+import { SuccessPage } from './pages/SuccessPage';
 import { LandingPage } from './pages/LandingPage';
 import { VariantAFunnel } from './variants/variant-a';
 import { VariantBFunnel } from './variants/variant-b';
 import { VariantCFunnel } from './variants/variant-c';
 import { VariantDFunnel } from './variants/variant-d';
+import { VariantEFunnelRoot } from './variants/variant-e';
+
+function BaselineFunnelContent() {
+  const { state } = useFunnel();
+
+  if (state.isComplete) {
+    return <SuccessPage />;
+  }
+
+  return (
+    <FunnelLayout>
+      <StepPage />
+    </FunnelLayout>
+  );
+}
 
 function BaselineFunnel() {
   return (
     <FunnelProvider>
-      <FunnelLayout>
-        <StepPage />
-      </FunnelLayout>
+      <BaselineFunnelContent />
     </FunnelProvider>
   );
 }
@@ -28,6 +42,7 @@ function App() {
         <Route path="/funnel/variant-b" element={<VariantBFunnel />} />
         <Route path="/funnel/variant-c" element={<VariantCFunnel />} />
         <Route path="/funnel/variant-d" element={<VariantDFunnel />} />
+        <Route path="/funnel/variant-e" element={<VariantEFunnelRoot />} />
       </Routes>
     </BrowserRouter>
   );

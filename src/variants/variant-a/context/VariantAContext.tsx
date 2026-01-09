@@ -7,6 +7,17 @@ import {
 } from 'react';
 import { VARIANT_A_TOTAL_STEPS } from '../data/variantAStepConfig';
 
+// Registration data for account creation
+export interface RegistrationData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  referralCode: string;
+  mobileNumber: string;
+  verificationCode: string;
+}
+
 // State types
 export interface VariantAAnswers {
   // Step 1
@@ -23,6 +34,8 @@ export interface VariantAAnswers {
   redemptionOptions: string[];
   // Step 5
   partners: string[];
+  // Registration (Steps 6-8)
+  registration: RegistrationData;
   // Other inputs
   otherInputs: Record<string, string>;
 }
@@ -41,12 +54,24 @@ type VariantAAction =
   | { type: 'TOGGLE_MULTI_ANSWER'; field: keyof VariantAAnswers; value: string }
   | { type: 'SET_EXPENSE'; value: number }
   | { type: 'SET_OTHER_INPUT'; field: string; value: string }
+  | { type: 'SET_REGISTRATION_FIELD'; field: keyof RegistrationData; value: string }
   | { type: 'NEXT_STEP'; transitionMessage?: string }
   | { type: 'PREV_STEP' }
   | { type: 'GO_TO_STEP'; step: number }
   | { type: 'SET_LOADING'; isLoading: boolean }
   | { type: 'CLEAR_TRANSITION' }
   | { type: 'COMPLETE_FUNNEL' };
+
+// Initial registration state
+const initialRegistration: RegistrationData = {
+  email: '',
+  firstName: '',
+  lastName: '',
+  password: '',
+  referralCode: '',
+  mobileNumber: '',
+  verificationCode: '',
+};
 
 // Initial state
 const initialAnswers: VariantAAnswers = {
@@ -59,6 +84,7 @@ const initialAnswers: VariantAAnswers = {
   priorities: [],
   redemptionOptions: [],
   partners: [],
+  registration: initialRegistration,
   otherInputs: {},
 };
 
@@ -118,6 +144,18 @@ function variantAReducer(state: VariantAState, action: VariantAAction): VariantA
         },
       };
 
+    case 'SET_REGISTRATION_FIELD':
+      return {
+        ...state,
+        answers: {
+          ...state.answers,
+          registration: {
+            ...state.answers.registration,
+            [action.field]: action.value,
+          },
+        },
+      };
+
     case 'NEXT_STEP':
       return {
         ...state,
@@ -172,6 +210,7 @@ interface VariantAContextValue {
   toggleMultiAnswer: (field: keyof VariantAAnswers, value: string) => void;
   setExpense: (value: number) => void;
   setOtherInput: (field: string, value: string) => void;
+  setRegistrationField: (field: keyof RegistrationData, value: string) => void;
   // Navigation
   nextStep: (transitionMessage?: string) => void;
   prevStep: () => void;
@@ -205,6 +244,10 @@ export function VariantAProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SET_OTHER_INPUT', field, value });
   }, []);
 
+  const setRegistrationField = useCallback((field: keyof RegistrationData, value: string) => {
+    dispatch({ type: 'SET_REGISTRATION_FIELD', field, value });
+  }, []);
+
   const nextStep = useCallback((transitionMessage?: string) => {
     dispatch({ type: 'SET_LOADING', isLoading: true });
     // Shorter transition time for better UX
@@ -234,6 +277,12 @@ export function VariantAProvider({ children }: { children: ReactNode }) {
 
   const canProceed = useCallback((): boolean => {
     const { currentStep, answers } = state;
+    const { registration } = answers;
+
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Australian mobile number validation
+    const mobileRegex = /^(\+?61|0)4\d{8}$/;
 
     switch (currentStep) {
       case 0: // About You - role required
@@ -254,6 +303,21 @@ export function VariantAProvider({ children }: { children: ReactNode }) {
 
       case 4: // Choose Partners - at least one partner
         return answers.partners.length > 0;
+
+      case 5: // Account Creation - email, name, password required
+        return (
+          emailRegex.test(registration.email) &&
+          registration.firstName.trim().length > 0 &&
+          registration.lastName.trim().length > 0 &&
+          registration.password.length >= 6
+        );
+
+      case 6: // Mobile Number - valid Australian mobile
+        return mobileRegex.test(registration.mobileNumber.replace(/\s/g, ''));
+
+      case 7: // Verification Code - 6 digits
+        return registration.verificationCode.length === 6 &&
+          /^\d{6}$/.test(registration.verificationCode);
 
       default:
         return false;
@@ -276,6 +340,7 @@ export function VariantAProvider({ children }: { children: ReactNode }) {
         toggleMultiAnswer,
         setExpense,
         setOtherInput,
+        setRegistrationField,
         nextStep,
         prevStep,
         goToStep,

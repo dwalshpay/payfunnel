@@ -51,12 +51,8 @@ export function RewardsPreview({
     high: 'Accurate',
   };
 
-  const animatedFormatted = new Intl.NumberFormat('en-AU', {
-    style: 'currency',
-    currency: 'AUD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(displayValue);
+  // Format as points with commas
+  const animatedFormatted = new Intl.NumberFormat('en-AU').format(displayValue);
 
   return (
     <div
@@ -74,10 +70,10 @@ export function RewardsPreview({
             stroke="currentColor"
             strokeWidth="2"
           >
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
           </svg>
         </div>
-        <span className="font-bold text-[#283E48]">Your Rewards</span>
+        <span className="font-bold text-[#283E48]">Your Points</span>
       </div>
 
       {/* Value display */}
@@ -89,7 +85,7 @@ export function RewardsPreview({
         >
           {animatedFormatted}
         </span>
-        <span className="text-sm text-[#6B7280] block">/year potential</span>
+        <span className="text-sm text-[#6B7280] block">pts/year potential</span>
       </div>
 
       {/* Confidence indicator */}

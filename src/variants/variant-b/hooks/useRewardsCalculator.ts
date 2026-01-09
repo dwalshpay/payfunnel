@@ -8,38 +8,17 @@ interface RewardsInput {
 }
 
 interface RewardsOutput {
-  annualRewards: number;
-  formattedRewards: string;
+  annualPoints: number;
+  formattedPoints: string;
   pointsPerMonth: number;
   confidence: 'low' | 'medium' | 'high';
+  // Legacy fields for compatibility
+  annualRewards: number;
+  formattedRewards: string;
 }
 
-// Industry multipliers (some industries have higher average transaction values)
-const INDUSTRY_MULTIPLIERS: Record<string, number> = {
-  construction: 1.2,
-  professional: 1.1,
-  health: 1.0,
-  hospitality: 0.9,
-  other: 1.0,
-};
-
-// Company size multipliers
-const SIZE_MULTIPLIERS: Record<string, number> = {
-  '0-10': 0.8,
-  '10-50': 1.0,
-  '50-100': 1.2,
-  '100-200': 1.4,
-  '200+': 1.6,
-};
-
-// Payment method bonuses (Amex typically has higher rewards)
-const PAYMENT_METHOD_BONUSES: Record<string, number> = {
-  amex: 0.03, // 3% rewards rate
-  visa: 0.015,
-  mastercard: 0.015,
-  'bank-transfer': 0.01,
-  other: 0.01,
-};
+// Points rate: 2 points per dollar
+const POINTS_PER_DOLLAR = 2;
 
 export function useRewardsCalculator(input: RewardsInput): RewardsOutput {
   return useMemo(() => {
@@ -48,31 +27,18 @@ export function useRewardsCalculator(input: RewardsInput): RewardsOutput {
     // Base calculation
     if (!monthlyExpenses || monthlyExpenses <= 0) {
       return {
-        annualRewards: 0,
-        formattedRewards: '$0',
+        annualPoints: 0,
+        formattedPoints: '0 pts',
         pointsPerMonth: 0,
         confidence: 'low',
+        annualRewards: 0,
+        formattedRewards: '0 pts',
       };
     }
 
-    // Calculate average rewards rate based on payment methods
-    let avgRewardsRate = 0.015; // Default 1.5%
-    if (paymentMethods.length > 0) {
-      const totalRate = paymentMethods.reduce((sum, method) => {
-        return sum + (PAYMENT_METHOD_BONUSES[method] || 0.01);
-      }, 0);
-      avgRewardsRate = totalRate / paymentMethods.length;
-    }
-
-    // Apply industry multiplier
-    const industryMultiplier = industry ? INDUSTRY_MULTIPLIERS[industry] || 1.0 : 1.0;
-
-    // Apply size multiplier
-    const sizeMultiplier = employees ? SIZE_MULTIPLIERS[employees] || 1.0 : 1.0;
-
-    // Calculate annual rewards
-    const monthlyRewards = monthlyExpenses * avgRewardsRate * industryMultiplier * sizeMultiplier;
-    const annualRewards = Math.round(monthlyRewards * 12);
+    // Calculate points: 2 points per dollar
+    const monthlyPoints = monthlyExpenses * POINTS_PER_DOLLAR;
+    const annualPoints = Math.round(monthlyPoints * 12);
 
     // Determine confidence level based on data completeness
     let confidence: 'low' | 'medium' | 'high' = 'low';
@@ -86,19 +52,17 @@ export function useRewardsCalculator(input: RewardsInput): RewardsOutput {
     if (dataPoints >= 4) confidence = 'high';
     else if (dataPoints >= 2) confidence = 'medium';
 
-    // Format the rewards value
-    const formattedRewards = new Intl.NumberFormat('en-AU', {
-      style: 'currency',
-      currency: 'AUD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(annualRewards);
+    // Format the points value with commas
+    const formattedPoints = new Intl.NumberFormat('en-AU').format(annualPoints) + ' pts';
 
     return {
-      annualRewards,
-      formattedRewards,
-      pointsPerMonth: Math.round(monthlyRewards),
+      annualPoints,
+      formattedPoints,
+      pointsPerMonth: Math.round(monthlyPoints),
       confidence,
+      // Legacy compatibility
+      annualRewards: annualPoints,
+      formattedRewards: formattedPoints,
     };
   }, [input.monthlyExpenses, input.paymentMethods, input.industry, input.employees]);
 }

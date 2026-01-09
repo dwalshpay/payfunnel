@@ -76,12 +76,7 @@ function AnimatedCounter({ value }: { value: number }) {
 
   return (
     <span>
-      {new Intl.NumberFormat('en-AU', {
-        style: 'currency',
-        currency: 'AUD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(displayValue)}
+      {new Intl.NumberFormat('en-AU').format(displayValue)}
     </span>
   );
 }
@@ -89,6 +84,7 @@ function AnimatedCounter({ value }: { value: number }) {
 export function SuccessPage() {
   const { state } = useVariantA();
   const { answers } = state;
+  const { registration } = answers;
   const [showConfetti, setShowConfetti] = useState(true);
 
   const rewards = useRewardsCalculator({
@@ -102,6 +98,9 @@ export function SuccessPage() {
     const timer = setTimeout(() => setShowConfetti(false), 3000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Check if user completed registration
+  const hasRegistration = registration.email && registration.firstName;
 
   // Get readable labels for selections
   const getLabel = (stepId: string, fieldId: string, value: string) => {
@@ -131,21 +130,31 @@ export function SuccessPage() {
             </svg>
           </div>
 
-          <h1 className="text-3xl font-bold mb-2">You're all set!</h1>
-          <p className="text-white/80">Your personalized rewards plan is ready</p>
+          <h1 className="text-3xl font-bold mb-2">
+            {hasRegistration ? 'Account Created!' : "You're all set!"}
+          </h1>
+          <p className="text-white/80">
+            {hasRegistration
+              ? `Welcome, ${registration.firstName}! Your account is ready.`
+              : 'Your personalized rewards plan is ready'}
+          </p>
+          {hasRegistration && (
+            <p className="text-sm text-white/60 mt-2">{registration.email}</p>
+          )}
         </div>
 
         {/* Rewards highlight */}
         <div className="px-8 py-8 bg-[#F0F7FF] border-b border-[#E2E9F9]">
           <div className="text-center">
             <p className="text-sm font-medium text-[#6B7280] mb-2">
-              Your Estimated Annual Rewards
+              Your Estimated Annual Points
             </p>
             <p className="text-5xl font-bold text-[#3866B0]">
-              <AnimatedCounter value={rewards.annualRewards} />
+              <AnimatedCounter value={rewards.annualPoints} />
+              <span className="text-2xl ml-1">pts</span>
             </p>
             <p className="text-sm text-[#6B7280] mt-2">
-              Based on ${answers.monthlyExpenses.toLocaleString()}/month in expenses
+              Based on ${answers.monthlyExpenses.toLocaleString()}/month in expenses (2 pts per $1)
             </p>
           </div>
         </div>
@@ -202,7 +211,7 @@ export function SuccessPage() {
         {/* CTA */}
         <div className="px-8 py-6 bg-[#FAFBFC] border-t border-[#F5F5F5]">
           <button className="w-full h-14 bg-[#3866B0] text-white font-bold text-[16px] rounded-xl hover:bg-[#2D5490] transition-colors shadow-lg shadow-[#3866B0]/20">
-            Start Earning Rewards
+            {hasRegistration ? 'Go to Dashboard' : 'Start Earning Rewards'}
           </button>
 
           <div className="flex items-center justify-center gap-4 mt-4">

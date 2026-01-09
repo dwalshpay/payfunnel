@@ -139,6 +139,31 @@ export const STEPS: StepConfig[] = [
       { id: 'other', label: 'Other', icon: 'more', hasOtherInput: true },
     ],
   },
+  // Registration steps
+  {
+    id: 'account',
+    title: 'Create your free account to start earning {value} points',
+    selectLabel: '',
+    type: 'registration',
+    field: 'registration',
+    registrationComponent: 'AccountCreationForm',
+  },
+  {
+    id: 'mobile',
+    title: 'Enter your mobile number to receive your verification code',
+    selectLabel: '',
+    type: 'registration',
+    field: 'registration',
+    registrationComponent: 'MobileNumberInput',
+  },
+  {
+    id: 'verification',
+    title: 'Verify your number',
+    selectLabel: '',
+    type: 'registration',
+    field: 'registration',
+    registrationComponent: 'VerificationCodeInput',
+  },
 ];
 
 export const TESTIMONIALS = [

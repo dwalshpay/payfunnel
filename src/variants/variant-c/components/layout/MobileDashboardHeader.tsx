@@ -10,7 +10,7 @@ export function MobileDashboardHeader({ rewards }: MobileDashboardHeaderProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const destinationInfo = formatDestinationSummary(
-    rewards.doubleDip.qantasPointsEquivalent
+    rewards.doubleDip.totalPoints
   );
 
   return (
@@ -21,8 +21,8 @@ export function MobileDashboardHeader({ rewards }: MobileDashboardHeaderProps) {
         className="w-full px-4 py-3 flex items-center justify-between"
       >
         <div className="flex items-center gap-3">
-          <div className="text-[20px] font-bold">{rewards.formattedRewards}</div>
-          <div className="text-[12px] opacity-80">potential annual rewards</div>
+          <div className="text-[20px] font-bold">{rewards.formattedPoints}</div>
+          <div className="text-[12px] opacity-80">potential annual points</div>
         </div>
         <svg
           className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
@@ -54,8 +54,8 @@ export function MobileDashboardHeader({ rewards }: MobileDashboardHeaderProps) {
             </div>
             <div className="h-px bg-white/20" />
             <div className="flex justify-between text-[14px] font-bold">
-              <span>Total value</span>
-              <span>{rewards.formattedRewards}/year</span>
+              <span>Total points</span>
+              <span>{rewards.formattedPoints}/year</span>
             </div>
           </div>
 

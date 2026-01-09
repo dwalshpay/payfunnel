@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { Logo } from './Logo';
 import { TestimonialSidebar } from './TestimonialSidebar';
 
@@ -10,8 +11,16 @@ export function FunnelLayout({ children }: FunnelLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Header - matches Figma Global Header */}
-      <header className="h-16 px-6 flex items-center border-b border-[rgba(0,0,0,0.12)] bg-white">
-        <Logo />
+      <header className="h-16 px-6 flex items-center justify-between border-b border-[rgba(0,0,0,0.12)] bg-white">
+        <div className="flex items-center gap-6">
+          <Logo />
+          <Link
+            to="/"
+            className="text-sm text-[#6B7280] hover:text-[#3866B0] border border-[#E5E7EB] hover:border-[#3866B0] rounded-lg px-3 py-1.5 transition-colors"
+          >
+            Funnel Dashboard
+          </Link>
+        </div>
       </header>
 
       {/* Main content - matches Figma layout with 160px gap */}

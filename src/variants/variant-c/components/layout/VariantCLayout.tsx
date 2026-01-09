@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { useVariantC } from '../../context/VariantCContext';
 import { useRewardsCalculator } from '../../hooks/useRewardsCalculator';
 import { LiveRewardsDashboard } from '../dashboard/LiveRewardsDashboard';
@@ -28,7 +29,15 @@ export function VariantCLayout({ children }: VariantCLayoutProps) {
     <div className="min-h-screen bg-gradient-to-br from-[#EEF2F8] via-[#F5F8FC] to-[#E8EEF5] flex flex-col">
       {/* Header */}
       <header className="h-16 px-4 md:px-6 flex items-center justify-between border-b border-[rgba(0,0,0,0.06)] bg-white/90 backdrop-blur-sm sticky top-0 z-40">
-        <Logo />
+        <div className="flex items-center gap-4 md:gap-6">
+          <Logo />
+          <Link
+            to="/"
+            className="text-sm text-[#6B7280] hover:text-[#3866B0] border border-[#E5E7EB] hover:border-[#3866B0] rounded-lg px-3 py-1.5 transition-colors"
+          >
+            Funnel Dashboard
+          </Link>
+        </div>
 
         {/* Step indicator - center */}
         <div className="hidden md:block">
