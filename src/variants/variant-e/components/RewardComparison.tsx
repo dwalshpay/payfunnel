@@ -207,7 +207,7 @@ export function RewardComparison({
                 </div>
                 <h3 className="text-xl font-bold text-[#283E48] mb-2">You're all set!</h3>
                 <p className="text-[#6B7280]">
-                  We've sent your personalized rewards estimate to your email.
+                  We've sent your personalised rewards estimate to your email.
                 </p>
               </div>
             ) : (

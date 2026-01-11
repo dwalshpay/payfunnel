@@ -19,7 +19,7 @@ export function ResultsPage() {
   // This shouldn't happen, but handle null score gracefully
   if (!score) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#E8EEF5] to-[#F0F4F8] py-12 px-4 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#E8EEF7] via-[#EDF1F8] to-[#E5EBF5] py-12 px-4 flex items-center justify-center">
         <p className="text-[#6B7280]">Calculating your results...</p>
       </div>
     );
@@ -34,7 +34,7 @@ export function ResultsPage() {
   const industryLabel = industryOption?.label ?? 'your industry';
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#E8EEF5] to-[#F0F4F8] py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#E8EEF7] via-[#EDF1F8] to-[#E5EBF5] py-12 px-4">
       <div className="max-w-3xl mx-auto">
         <div className="bg-white rounded-2xl shadow-[0px_1px_3px_0px_rgba(0,0,0,0.03),0px_1px_3px_1px_rgba(0,0,0,0.05)] overflow-hidden">
           {/* Header */}
@@ -133,7 +133,7 @@ export function ResultsPage() {
         {/* Footer */}
         <div className="mt-8 text-center">
           <p className="text-sm text-[#6B7280]">
-            Trusted by 10,000+ Australian businesses
+            Trusted by 50,000+ Australian businesses
           </p>
         </div>
       </div>

@@ -100,7 +100,7 @@ export const TIER_CONFIGS: Record<Tier, TierConfig> = {
   gold: {
     tier: 'gold',
     label: 'EXCEPTIONAL REWARDS POTENTIAL',
-    description: "Your business is perfectly positioned to maximize rewards. You're in the top 10% of Australian businesses.",
+    description: "Your business is perfectly positioned to maximise rewards. You're in the top 10% of Australian businesses.",
     accentColor: '#F59E0B',
     backgroundColor: '#FEF3C7',
     icon: 'trophy',

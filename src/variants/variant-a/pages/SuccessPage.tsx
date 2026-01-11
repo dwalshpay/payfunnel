@@ -136,7 +136,7 @@ export function SuccessPage() {
           <p className="text-white/80">
             {hasRegistration
               ? `Welcome, ${registration.firstName}! Your account is ready.`
-              : 'Your personalized rewards plan is ready'}
+              : 'Your personalised rewards plan is ready'}
           </p>
           {hasRegistration && (
             <p className="text-sm text-white/60 mt-2">{registration.email}</p>

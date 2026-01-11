@@ -190,8 +190,8 @@ export const STEPS: StepConfig[] = [
   },
   {
     id: 'personalize-rewards',
-    title: 'Personalize Your Rewards',
-    subtitle: 'Tell us how you pay to maximize earnings',
+    title: 'Personalise Your Rewards',
+    subtitle: 'Tell us how you pay to maximise earnings',
     fields: ['paymentMethods', 'paymentTypes', 'redemptionOptions'],
     ctaText: 'See What I Can Get',
     backText: 'Back',

@@ -150,13 +150,13 @@ export function HeroPage() {
                 <svg className="w-4 h-4 text-[#22C55E]" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 </svg>
-                <span>256-bit encryption</span>
+                <span>Bank-level encryption</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <svg className="w-4 h-4 text-[#3866B0]" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
-                <span>10,000+ businesses</span>
+                <span>50,000+ businesses</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <svg className="w-4 h-4 text-[#00B67A]" fill="currentColor" viewBox="0 0 24 24">

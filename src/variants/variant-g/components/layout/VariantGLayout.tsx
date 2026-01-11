@@ -17,7 +17,7 @@ export function VariantGLayout({ children, showCalculator = false }: VariantGLay
   const showSidebar = showCalculator && !isComplete && currentStep !== 'entry' && currentStep !== 'success';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#E2E9F9] via-[#F0F4FA] to-[#FFFFFF] flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-[#E8EEF7] via-[#EDF1F8] to-[#E5EBF5] flex flex-col">
       {/* Header */}
       <header className="h-16 px-6 flex items-center justify-between border-b border-[rgba(0,0,0,0.06)] bg-white/80 backdrop-blur-sm sticky top-0 z-40">
         <div className="flex items-center gap-6">
@@ -66,7 +66,7 @@ export function VariantGLayout({ children, showCalculator = false }: VariantGLay
         <div className="flex items-center justify-center gap-6 text-sm text-[#6B7280]">
           <div className="flex items-center gap-2">
             <ShieldIcon className="w-4 h-4" />
-            <span>256-bit encryption</span>
+            <span>Bank-level encryption</span>
           </div>
           <span className="hidden sm:inline">|</span>
           <div className="flex items-center gap-2">

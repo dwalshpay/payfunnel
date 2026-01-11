@@ -66,14 +66,14 @@ export function LandingPage() {
     {
       title: 'Variant A - High Converting',
       description:
-        '5-step optimized flow with dynamic rewards calculator, value-driven CTAs, and celebration success page. 25-40% expected conversion lift.',
+        '5-step optimised flow with dynamic rewards calculator, value-driven CTAs, and celebration success page. 25-40% expected conversion lift.',
       to: '/funnel/variant-a',
       status: 'active',
       badge: 'New',
       badgeColor: 'bg-[#22C55E]',
     },
     {
-      title: 'Variant B - Desktop Optimized',
+      title: 'Variant B - Desktop Optimised',
       description:
         'Two-column desktop layout with sidebar featuring points unlocked urgency, rotating testimonials, trust signals, and persistent rewards preview.',
       to: '/funnel/variant-b',
@@ -102,7 +102,7 @@ export function LandingPage() {
     {
       title: 'Variant E - Reward Anchor',
       description:
-        'Flips the traditional funnel by leading with the payoff. Shows 156K benchmark points first, then quick 2-question profile, personalized results with confetti celebration, and optional enrichment.',
+        'Flips the traditional funnel by leading with the payoff. Shows 156K benchmark points first, then quick 2-question profile, personalised results with confetti celebration, and optional enrichment.',
       to: '/funnel/variant-e',
       status: 'active',
       badge: 'New',
@@ -111,7 +111,7 @@ export function LandingPage() {
     {
       title: 'Variant F - Business Assessment',
       description:
-        'Professional diagnostic approach with 3-section assessment. Captures business profile, payment habits, and rewards goals to deliver a scored report with personalized recommendations and tier-based CTAs.',
+        'Professional diagnostic approach with 3-section assessment. Captures business profile, payment habits, and rewards goals to deliver a scored report with personalised recommendations and tier-based CTAs.',
       to: '/funnel/variant-f',
       status: 'active',
       badge: 'New',

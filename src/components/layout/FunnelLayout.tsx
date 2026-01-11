@@ -9,7 +9,7 @@ interface FunnelLayoutProps {
 
 export function FunnelLayout({ children }: FunnelLayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#E8EEF7] via-[#EDF1F8] to-[#E5EBF5]">
       {/* Header - matches Figma Global Header */}
       <header className="h-16 px-6 flex items-center justify-between border-b border-[rgba(0,0,0,0.12)] bg-white">
         <div className="flex items-center gap-6">

@@ -57,7 +57,7 @@ export const VARIANT_D_STEPS: VariantDStepConfig[] = [
   {
     id: 'business-profile',
     title: 'See what your business could earn',
-    subtitle: "We'll calculate your personalized rewards estimate",
+    subtitle: "We'll calculate your personalised rewards estimate",
     fields: ['industry', 'employees', 'monthlyExpenses'],
     sections: [
       {
@@ -104,7 +104,7 @@ export const VARIANT_D_STEPS: VariantDStepConfig[] = [
   // Step 3: Payment Optimization
   {
     id: 'payment-optimization',
-    title: 'Maximize your rewards',
+    title: 'Maximise your rewards',
     subtitle: 'Tell us how you pay to unlock your full potential',
     fields: ['paymentMethods', 'paymentTypes'],
     sections: [

@@ -14,10 +14,10 @@ export function RecommendationsList({
   return (
     <div className={className}>
       <h3 className="text-sm font-bold text-[#283E48] uppercase tracking-wider mb-3">
-        Personalized Recommendations
+        Personalised Recommendations
       </h3>
       <p className="text-sm text-[#6B7280] mb-4">
-        Based on your profile, here's how to maximize rewards:
+        Based on your profile, here's how to maximise rewards:
       </p>
 
       <ul className="space-y-3">

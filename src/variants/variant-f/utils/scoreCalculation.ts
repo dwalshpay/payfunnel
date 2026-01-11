@@ -105,7 +105,7 @@ export function calculateScore(answers: AssessmentAnswers): AssessmentScore {
 }
 
 /**
- * Generate personalized recommendations based on answers
+ * Generate personalised recommendations based on answers
  */
 export function generateRecommendations(answers: AssessmentAnswers): string[] {
   const { paymentHabits, rewardsGoals } = answers;

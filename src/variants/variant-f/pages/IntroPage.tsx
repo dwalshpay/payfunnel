@@ -6,7 +6,7 @@ export function IntroPage() {
   const { startAssessment } = useVariantF();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#E8EEF5] to-[#F0F4F8] py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#E8EEF7] via-[#EDF1F8] to-[#E5EBF5] py-12 px-4">
       <div className="max-w-5xl mx-auto">
         <div className="bg-white rounded-2xl shadow-[0px_1px_3px_0px_rgba(0,0,0,0.03),0px_1px_3px_1px_rgba(0,0,0,0.05)] overflow-hidden">
           <div className="grid md:grid-cols-2 gap-0">
@@ -44,7 +44,7 @@ export function IntroPage() {
         {/* Trust footer */}
         <div className="mt-8 text-center">
           <p className="text-sm text-[#6B7280]">
-            Trusted by 10,000+ Australian businesses
+            Trusted by 50,000+ Australian businesses
           </p>
         </div>
       </div>

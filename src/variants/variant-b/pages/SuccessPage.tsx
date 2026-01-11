@@ -156,7 +156,7 @@ export function SuccessPage() {
           </div>
 
           <h1 className="text-3xl font-bold mb-2">Account Created!</h1>
-          <p className="text-white/80">Your personalized rewards plan is ready</p>
+          <p className="text-white/80">Your personalised rewards plan is ready</p>
 
           {/* Account info */}
           {answers.registration?.email && (

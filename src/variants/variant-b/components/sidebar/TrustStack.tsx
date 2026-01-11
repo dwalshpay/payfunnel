@@ -18,7 +18,7 @@ export function TrustStack() {
             </svg>
           </div>
           <div>
-            <p className="text-sm font-medium text-[#283E48]">256-bit encryption</p>
+            <p className="text-sm font-medium text-[#283E48]">Bank-level encryption</p>
             <p className="text-xs text-[#6B7280]">Bank-level security</p>
           </div>
         </div>
@@ -40,7 +40,7 @@ export function TrustStack() {
             </svg>
           </div>
           <div>
-            <p className="text-sm font-medium text-[#283E48]">10,000+ businesses</p>
+            <p className="text-sm font-medium text-[#283E48]">50,000+ businesses</p>
             <p className="text-xs text-[#6B7280]">Trust us with their payments</p>
           </div>
         </div>

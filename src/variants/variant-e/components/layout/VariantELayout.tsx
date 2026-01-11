@@ -20,7 +20,7 @@ export function VariantELayout({ children }: VariantELayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F8FAFC] via-[#F0F4F8] to-[#E8EEF5] flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-[#E8EEF7] via-[#EDF1F8] to-[#E5EBF5] flex flex-col">
       {/* Header - only shown on steps 2-4 and success */}
       <header className="h-14 md:h-16 px-4 md:px-6 flex items-center justify-between border-b border-slate-200/60 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="flex items-center gap-4 md:gap-6">

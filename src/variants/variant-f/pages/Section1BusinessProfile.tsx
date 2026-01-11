@@ -19,7 +19,7 @@ export function Section1BusinessProfile() {
   const canProceed = canProceedSection1();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#E8EEF5] to-[#F0F4F8] py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#E8EEF7] via-[#EDF1F8] to-[#E5EBF5] py-12 px-4">
       <div className="max-w-5xl mx-auto">
         <div className="grid md:grid-cols-[1fr_320px] gap-8">
           {/* Main form */}

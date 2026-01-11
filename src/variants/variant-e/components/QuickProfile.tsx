@@ -30,7 +30,7 @@ export function QuickProfile({
       {/* Header with progress hint */}
       <div className="pt-6 pb-4 px-6 text-center">
         <p className="text-[#6B7280] text-sm font-medium">
-          Just 2 quick questions to personalize your estimate
+          Just 2 quick questions to personalise your estimate
         </p>
       </div>
 

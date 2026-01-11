@@ -34,7 +34,7 @@ export const VARIANT_B_STEPS: VariantBStepConfig[] = [
   // Step 1: About You (Role only - auto-advance)
   {
     id: 'about-you',
-    title: "Let's personalize your experience",
+    title: "Let's personalise your experience",
     subtitle: 'Tell us about your role',
     valueProposition: 'Takes less than 2 minutes',
     fields: ['role'],
@@ -63,7 +63,7 @@ export const VARIANT_B_STEPS: VariantBStepConfig[] = [
     id: 'your-business',
     title: 'Help us find the best rewards for you',
     subtitle: 'Tell us about your business',
-    valueProposition: 'Personalized rewards estimate coming...',
+    valueProposition: 'Personalised rewards estimate coming...',
     fields: ['industry', 'employees'],
     sections: [
       {

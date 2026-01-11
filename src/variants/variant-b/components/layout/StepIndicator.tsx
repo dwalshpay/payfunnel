@@ -7,7 +7,11 @@ interface StepIndicatorProps {
 
 export function StepIndicator({ currentStep, totalSteps }: StepIndicatorProps) {
   const stepConfig = VARIANT_B_STEPS[currentStep];
-  const timeRemaining = Math.max(1, totalSteps - currentStep);
+  const stepsRemaining = totalSteps - currentStep;
+  const secondsRemaining = stepsRemaining * 30;
+  const timeDisplay = secondsRemaining >= 60
+    ? `~${Math.ceil(secondsRemaining / 60)} min`
+    : `~${secondsRemaining} sec`;
 
   return (
     <div className="flex flex-col gap-3 w-full">
@@ -17,7 +21,7 @@ export function StepIndicator({ currentStep, totalSteps }: StepIndicatorProps) {
           Step {currentStep + 1} of {totalSteps}
         </span>
         <span className="text-[#6B7280]">
-          ~{timeRemaining} min remaining
+          {timeDisplay} remaining
         </span>
       </div>
 

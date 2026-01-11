@@ -40,7 +40,7 @@ export const VARIANT_A_STEPS: VariantAStepConfig[] = [
   // Step 1: About You (Role only - auto-advance)
   {
     id: 'about-you',
-    title: "Let's personalize your experience",
+    title: "Let's personalise your experience",
     subtitle: 'Tell us about your role',
     valueProposition: 'Takes less than 2 minutes',
     fields: ['role'],
@@ -60,7 +60,7 @@ export const VARIANT_A_STEPS: VariantAStepConfig[] = [
       },
     ],
     ctaText: 'Continue',
-    transitionMessage: 'Great choice! This helps us personalize everything.',
+    transitionMessage: 'Great choice! This helps us personalise everything.',
   },
 
   // Step 2: Your Business (Industry + Size combined)
@@ -68,7 +68,7 @@ export const VARIANT_A_STEPS: VariantAStepConfig[] = [
     id: 'your-business',
     title: 'Help us find the best rewards for you',
     subtitle: 'Tell us about your business',
-    valueProposition: 'Personalized rewards estimate coming...',
+    valueProposition: 'Personalised rewards estimate coming...',
     fields: ['industry', 'employees'],
     sections: [
       {
@@ -183,7 +183,7 @@ export const VARIANT_A_STEPS: VariantAStepConfig[] = [
         ],
       },
     ],
-    ctaText: 'Get Personalized Recommendations',
+    ctaText: 'Get Personalised Recommendations',
     transitionMessage: 'Last step - choose where to send your points!',
   },
 

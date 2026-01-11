@@ -56,7 +56,7 @@ export function SuccessPage() {
         </h1>
 
         <p className="text-lg text-[#6B7280] mb-8 opacity-0 animate-[fadeInUp_0.5s_ease-out_0.4s_forwards]">
-          Your personalized rewards estimate is ready
+          Your personalised rewards estimate is ready
         </p>
 
         {/* Points summary card */}

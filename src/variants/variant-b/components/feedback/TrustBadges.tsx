@@ -1,6 +1,6 @@
 export function TrustBadges() {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-6 py-4">
+    <div className="flex flex-wrap items-center justify-center gap-6 py-2">
       {/* Security badge */}
       <div className="flex items-center gap-2 text-[#6B7280]">
         <svg
@@ -10,7 +10,7 @@ export function TrustBadges() {
         >
           <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
         </svg>
-        <span className="text-xs font-medium">256-bit encryption</span>
+        <span className="text-xs font-medium">Bank-level encryption</span>
       </div>
 
       {/* Business count */}
@@ -22,7 +22,7 @@ export function TrustBadges() {
         >
           <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z" />
         </svg>
-        <span className="text-xs font-medium">Trusted by 10,000+ businesses</span>
+        <span className="text-xs font-medium">Trusted by 50,000+ businesses</span>
       </div>
 
       {/* Trustpilot */}
