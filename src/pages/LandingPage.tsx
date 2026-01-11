@@ -143,7 +143,7 @@ export function LandingPage() {
           </h1>
           <p className="text-[18px] text-[#6B7280] max-w-2xl mx-auto">
             Explore different design iterations of the pay.com.au onboarding flow.
-            Each variant tests different conversion optimization strategies.
+            Each variant tests different conversion optimisation strategies.
           </p>
         </div>
 
@@ -153,29 +153,6 @@ export function LandingPage() {
           ))}
         </div>
 
-        <div className="mt-16 p-6 bg-white rounded-xl border border-[#F5F5F5]">
-          <h2 className="text-[18px] font-bold text-[#283E48] mb-4">
-            Design Principles
-          </h2>
-          <ul className="space-y-2 text-[14px] text-[#6B7280]">
-            <li className="flex items-start gap-2">
-              <span className="text-[#3866B0] mt-1">•</span>
-              <span>Each variant is self-contained and swappable for A/B testing</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-[#3866B0] mt-1">•</span>
-              <span>Mobile-first, responsive implementation with WCAG 2.1 AA compliance</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-[#3866B0] mt-1">•</span>
-              <span>Focus on conversion optimization: clarity, trust signals, friction reduction</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-[#3866B0] mt-1">•</span>
-              <span>Document rationale and best practice source for each design change</span>
-            </li>
-          </ul>
-        </div>
       </main>
     </div>
   );
