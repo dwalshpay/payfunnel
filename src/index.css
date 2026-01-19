@@ -76,3 +76,27 @@ body {
 #root {
   min-height: 100vh;
 }
+
+/* Points animation keyframes */
+@keyframes fly-to-counter {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px) translateY(-50%) scale(1.2);
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(-10px) translateY(-50%) scale(1.1);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(50px) translateY(-50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(60px) translateY(-50%) scale(0.8);
+  }
+}
+
+.animate-fly-to-counter {
+  animation: fly-to-counter 0.5s ease-out forwards;
+}

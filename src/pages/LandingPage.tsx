@@ -82,6 +82,15 @@ export function LandingPage() {
       badgeColor: 'bg-[#F59E0B]',
     },
     {
+      title: 'Variant B - A',
+      description:
+        'Iteration on Variant B with two-column desktop layout. Features sidebar with points unlocked urgency, rotating testimonials, trust signals, and persistent rewards preview.',
+      to: '/funnel/variant-b-a',
+      status: 'active',
+      badge: 'Iteration',
+      badgeColor: 'bg-[#F59E0B]',
+    },
+    {
       title: 'Variant C - Rewards First',
       description:
         'Value-first funnel with interactive hero calculator showing rewards before asking questions. 3-step flow with double-dip visualization and destination converter.',
